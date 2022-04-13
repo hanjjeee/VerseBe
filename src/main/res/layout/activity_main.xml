@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tab1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray2"
+        app:tabIndicatorColor="@color/white"
+        app:tabRippleColor="@color/white"
+        app:tabTextColor="@color/light_gray1"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/mainpage_main_tab"
+            android:layout_width="10dp"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_dialog_dialer" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/mainpage_mypage_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:icon="@android:drawable/ic_menu_myplaces" />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/mainpage_follow_tab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/follow2" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
