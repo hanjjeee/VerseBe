@@ -67,17 +67,11 @@ public class Fragment0_2 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        //서버의 loadDBtoJson.php파일에 접속하여 (DB데이터들)결과 받기
-        //Volley+ 라이브러리 사용
-
         //서버주소
         //test 용
         //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
         String url = "http://hanjiyoon.dothome.co.kr/layouts.php";
 
-        //결과를 JsonArray 받을 것이므로..
-        //StringRequest가 아니라..
-        //JsonArrayRequest를 이용할 것임
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
 
@@ -105,7 +99,6 @@ public class Fragment0_2 extends Fragment {
                         String image_path = jsonObject.getString("THUMBNAIL");
 
 
-                        //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
                         image_path = "http://hanjiyoon.dothome.co.kr/layout_thumb/" + image_path;

@@ -60,15 +60,10 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
 
-        //서버의 loadDBtoJson.php파일에 접속하여 (DB데이터들)결과 받기
-        //Volley+ 라이브러리 사용
-
         //서버주소
         String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
 
-        //결과를 JsonArray 받을 것이므로..
-        //StringRequest가 아니라..
-        //JsonArrayRequest를 이용할 것임
+
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
 
