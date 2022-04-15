@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                             String UserPassword = jsonObject.getString( "userPassword" );
                             String UserId = jsonObject.getString( "userId" );
                             String UserPhone = jsonObject.getString( "userPhone" );
+                            String UserImage = jsonObject.getString( "image_path" );
 
                             Toast.makeText(getApplicationContext(), String.format("%s님 환영합니다.", UserId), Toast.LENGTH_SHORT).show();
                             //테스트
@@ -95,6 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                             intent.putExtra( "userPassword", UserPassword);
                             intent.putExtra( "userId", UserId );
                             intent.putExtra( "userPhone", UserPhone );
+                            intent.putExtra( "image_path", UserImage );
 
 
                             startActivity(intent);

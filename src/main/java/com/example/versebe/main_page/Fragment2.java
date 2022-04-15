@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,9 @@ import com.example.versebe.R;
 import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
+import com.example.versebe.user.LoginActivity;
+import com.example.versebe.user.MemberActivity;
+import com.example.versebe.user.OnMemberItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +43,8 @@ public class Fragment2 extends Fragment {
 
     private Intent intent;
     private EditText keyword;
+    private TextView mainpage_name;
+
 
     private ArrayList<FollowItem> items;
     private FollowItemAdapter adapter;
@@ -53,10 +59,14 @@ public class Fragment2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
         View view = inflater.inflate(R.layout.mainpage_follow, container, false);
-        TextView mainpage_name = view.findViewById(R.id.followpage_id);
-        mainpage_name.setText(intent.getExtras().getString("userName"));
+        mainpage_name = view.findViewById(R.id.followpage_id);
+
+        mainpage_name.setText(intent.getExtras().getString("userId"));
+
         keyword = view.findViewById(R.id.followpage_search);
+
 
         RecyclerView recyclerView;
 
@@ -66,7 +76,9 @@ public class Fragment2 extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.follow_recyclerview);
         adapter = new FollowItemAdapter(getContext(), items);
-        recyclerView.setAdapter(adapter);
+
+
+
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -110,6 +122,8 @@ public class Fragment2 extends Fragment {
 
                         items.add(0, new FollowItem(image_path, id, email)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
                         adapter.notifyItemInserted(0);
+
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -128,6 +142,24 @@ public class Fragment2 extends Fragment {
 
         //요청큐에 요청 객체 생성
         requestQueue.add(jsonArrayRequest);
+
+        //////end of server
+
+        recyclerView.setAdapter(adapter);
+
+        //클릭 리스너
+        adapter.setOnItemClicklistener(new OnMemberItemClickListener() {
+            @Override
+            public void onItemClick(FollowItemAdapter.VH holder, View view, int position) {
+                FollowItem item = adapter.getItem(position);
+                Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
+                Intent follow_intent = new Intent(getContext(), MemberActivity.class);
+
+                follow_intent.putExtra( "userId", item.getId() );
+
+                startActivity(follow_intent);
+            }
+        });
 
         //검색
         //바로 나오도록
@@ -175,6 +207,9 @@ public class Fragment2 extends Fragment {
         }
 
         adapter.filterList(filteredList);
+
+
+
 
     }
 

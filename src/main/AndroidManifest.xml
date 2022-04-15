@@ -45,6 +45,8 @@
             android:name=".user.ModifyActivity_password"/>
         <activity
             android:name=".user.SearchActivity"/>
+        <activity
+            android:name=".user.MemberActivity"/>
 
 
 
