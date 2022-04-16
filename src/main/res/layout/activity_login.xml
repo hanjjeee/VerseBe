@@ -62,7 +62,7 @@
             android:layout_height="match_parent"
             android:background="@android:drawable/editbox_background_normal"
             android:ems="18"
-            android:hint="id / e-mail"
+            android:hint="id "
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
             android:padding="10dp"
