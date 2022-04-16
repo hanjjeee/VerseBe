@@ -48,15 +48,20 @@ import java.util.ArrayList;
 public class Fragment0 extends Fragment {
 
     private Intent intent;
+
     public View view;
 
+    private TextView mainpage_id;
+
     private TabLayout tabLayout2;
+    private TabItem tabItem2_1;
+    private TabItem tabItem2_2;
+    private TabItem tabItem2_3;
 
     private ViewPager viewPager2;
-
     private FragmentAdapter adapter2;
-
     private Button search_button;
+
 
     public Fragment0(Intent intent) {
 
@@ -71,7 +76,7 @@ public class Fragment0 extends Fragment {
 
         view = inflater.inflate(mainpage_main, container, false);
 
-        TextView mainpage_id = view.findViewById(R.id.mainpage_name);
+        mainpage_id = view.findViewById(R.id.mainpage_name);
         mainpage_id.setText(intent.getExtras().getString("userId"));
 
         search_button = view.findViewById(R.id.search_button);
@@ -80,21 +85,20 @@ public class Fragment0 extends Fragment {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent( getActivity(), SearchActivity.class);
-                startActivity( intent );
+                Intent search_intent = new Intent( getActivity(), SearchActivity.class);
+                startActivity( search_intent );
 
             }
         });
 
         ////내부 프레그먼트
         //getFragmentManager()가 아닌, getChildFragmentManager() 를 사용
-
         tabLayout2= (TabLayout) view.findViewById(R.id.main_tab);
 
 
-        TabItem tabItem2_1 = view.findViewById(R.id.mainpage_poster_tab);
-        TabItem tabItem2_2 = view.findViewById(R.id.mainpage_layout_tab);
-        TabItem tabItem2_3 = view.findViewById(R.id.mainpage_my_tab);
+        tabItem2_1 = view.findViewById(R.id.mainpage_poster_tab);
+        tabItem2_2 = view.findViewById(R.id.mainpage_layout_tab);
+        tabItem2_3 = view.findViewById(R.id.mainpage_my_tab);
 
 
         viewPager2 = view.findViewById(R.id.feed_frame);
@@ -108,15 +112,11 @@ public class Fragment0 extends Fragment {
         viewPager2.setAdapter(adapter2);
 
 
-
         tabLayout2.setupWithViewPager(viewPager2);
-
 
         tabLayout2.getTabAt(0).setText("POSTER");
         tabLayout2.getTabAt(1).setText("LAYOUT");
         tabLayout2.getTabAt(2).setText("MY");
-
-        ////
 
 
         return view;

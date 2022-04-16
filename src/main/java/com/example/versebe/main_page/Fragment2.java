@@ -42,9 +42,13 @@ import java.util.ArrayList;
 public class Fragment2 extends Fragment {
 
     private Intent intent;
+    public View view;
+
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+
     private EditText keyword;
     private TextView mainpage_name;
-
 
     private ArrayList<FollowItem> items;
     private FollowItemAdapter adapter;
@@ -60,7 +64,7 @@ public class Fragment2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
-        View view = inflater.inflate(R.layout.mainpage_follow, container, false);
+        view = inflater.inflate(R.layout.mainpage_follow, container, false);
         mainpage_name = view.findViewById(R.id.followpage_id);
 
         mainpage_name.setText(intent.getExtras().getString("userId"));
@@ -68,7 +72,6 @@ public class Fragment2 extends Fragment {
         keyword = view.findViewById(R.id.followpage_search);
 
 
-        RecyclerView recyclerView;
 
 
         items = new ArrayList<FollowItem>();
@@ -80,7 +83,7 @@ public class Fragment2 extends Fragment {
 
 
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
 
 
@@ -189,6 +192,7 @@ public class Fragment2 extends Fragment {
     }
 
     public void searchFilter(String searchText) {
+
         ArrayList<FollowItem>filteredList=new ArrayList<>();
 
         filteredList.clear();

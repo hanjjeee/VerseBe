@@ -39,8 +39,8 @@ public class Fragment1 extends Fragment {
 
         my_name = view.findViewById(R.id.my_name);
         cur_name = view.findViewById(R.id.cur_name);
-        my_name.setText(intent.getExtras().getString("userName"));
-        cur_name.setText(intent.getExtras().getString("userName"));
+        my_name.setText(intent.getExtras().getString("userId"));
+        cur_name.setText(intent.getExtras().getString("userId"));
 
         my_email = view.findViewById(R.id.my_email);
         cur_email = view.findViewById(R.id.cur_email);
@@ -62,7 +62,7 @@ public class Fragment1 extends Fragment {
             public void onClick(View view) {
                 Intent intent_email = new Intent(getActivity(), ModifyActivity_name.class);
 
-                intent_email.putExtra( "userName", intent.getExtras().getString("userName") );
+                intent_email.putExtra( "userId", intent.getExtras().getString("userId") );
 
                 startActivity( intent_email );
 

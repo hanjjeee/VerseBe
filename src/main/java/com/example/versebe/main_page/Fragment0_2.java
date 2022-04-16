@@ -26,6 +26,10 @@ import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FeedItemAdapter;
 import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
+import com.example.versebe.user.MemberActivity;
+import com.example.versebe.user.OnFeedItemClickListener;
+import com.example.versebe.user.OnMemberItemClickListener;
+import com.example.versebe.user.PosterActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +41,13 @@ public class Fragment0_2 extends Fragment {
 
     private Intent intent;
 
+    public View view;
+
+    private RecyclerView recyclerView;
+    private FeedItemAdapter adapter;
+    private ArrayList<FeedItem> items;
+    private  GridLayoutManager layoutManager;
+
     public Fragment0_2(Intent intent) {
 
         this.intent = intent;
@@ -47,23 +58,20 @@ public class Fragment0_2 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.mainpage_main_feed1, container, false);
+        view = inflater.inflate(R.layout.mainpage_main_feed1, container, false);
 
 
 
 
         //그리드 리사이클러 뷰 불러오기
-        RecyclerView recyclerView;
-        FeedItemAdapter adapter;
-
-        ArrayList<FeedItem> items = new ArrayList<FeedItem>();
+        items = new ArrayList<FeedItem>();
 
 
         recyclerView = (RecyclerView) view.findViewById(R.id.mainpage_recyclerview);
         adapter = new FeedItemAdapter(getContext(), items);
-        recyclerView.setAdapter(adapter);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+
+        layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
 
@@ -123,6 +131,24 @@ public class Fragment0_2 extends Fragment {
 
         //요청큐에 요청 객체 생성
         requestQueue.add(jsonArrayRequest);
+
+        recyclerView.setAdapter(adapter);
+
+        //클릭 리스너
+        adapter.setOnItemClicklistener(new OnFeedItemClickListener() {
+
+            @Override
+            public void onItemClick(FeedItemAdapter.VH holder, View view, int position) {
+
+                FeedItem item = adapter.getItem(position);
+                Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
+                Intent feed_intent = new Intent(getContext(), PosterActivity.class);
+
+                feed_intent.putExtra( "userId", item.getId() );
+
+                startActivity(feed_intent);
+            }
+        });
 
         return view;
 

@@ -6,5 +6,4 @@ public interface OnMemberItemClickListener {
 
     public void onItemClick(FollowItemAdapter.VH holder, View view, int position);
 
-
 }

@@ -17,7 +17,7 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/member_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
@@ -52,7 +52,7 @@
         <LinearLayout
             android:id="@+id/linearLayout2"
             android:layout_width="410dp"
-            android:layout_height="279dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="20dp">
 
@@ -78,8 +78,8 @@
 
             </com.google.android.material.tabs.TabLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/memberpage_recyclerview"
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/memberpage_feed_frame"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

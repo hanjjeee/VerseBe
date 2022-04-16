@@ -17,15 +17,9 @@
             <ImageView
                 android:id="@+id/poster_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:srcCompat="@tools:sample/avatars" />
         </ScrollView>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/poster_comment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:animateLayoutChanges="true" />
 
     </LinearLayout>
 
