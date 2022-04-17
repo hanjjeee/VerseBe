@@ -40,6 +40,7 @@ import java.util.ArrayList;
 public class Fragment0_2 extends Fragment {
 
     private Intent intent;
+    private String cur_user_id;
 
     public View view;
 
@@ -47,6 +48,13 @@ public class Fragment0_2 extends Fragment {
     private FeedItemAdapter adapter;
     private ArrayList<FeedItem> items;
     private  GridLayoutManager layoutManager;
+
+
+    //json
+    private String title;
+    private String contents;
+    private String image_path;
+    private String layout_num;
 
     public Fragment0_2(Intent intent) {
 
@@ -100,18 +108,19 @@ public class Fragment0_2 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        String id = jsonObject.getString("TITLE");
+                        title = jsonObject.getString("TITLE");
 
-                        String contents = jsonObject.getString("HASH_TAG");
+                        contents = jsonObject.getString("HASH_TAG");
 
-                        String image_path = jsonObject.getString("THUMBNAIL");
+                        image_path = jsonObject.getString("THUMBNAIL");
 
+                        layout_num = jsonObject.getString("LAYOUT_NUM");
 
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
                         image_path = "http://hanjiyoon.dothome.co.kr/layout_thumb/" + image_path;
 
-                        items.add(0, new FeedItem(image_path, id, contents));
+                        items.add(0, new FeedItem(image_path, title, contents, layout_num));
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
@@ -144,7 +153,8 @@ public class Fragment0_2 extends Fragment {
                 Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
                 Intent feed_intent = new Intent(getContext(), PosterActivity.class);
 
-                feed_intent.putExtra( "userId", item.getId() );
+                feed_intent.putExtra( "userId", cur_user_id);
+                feed_intent.putExtra( "LAYOUT_NUM", layout_num);
 
                 startActivity(feed_intent);
             }

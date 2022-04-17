@@ -43,6 +43,7 @@ public class Fragment2 extends Fragment {
 
     private Intent intent;
     public View view;
+    private String cur_user_id;
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -52,6 +53,11 @@ public class Fragment2 extends Fragment {
 
     private ArrayList<FollowItem> items;
     private FollowItemAdapter adapter;
+
+    //json 추가
+    private String title;
+    private String email;
+    private String image_path;
 
     public Fragment2(Intent intent) {
 
@@ -67,7 +73,9 @@ public class Fragment2 extends Fragment {
         view = inflater.inflate(R.layout.mainpage_follow, container, false);
         mainpage_name = view.findViewById(R.id.followpage_id);
 
-        mainpage_name.setText(intent.getExtras().getString("userId"));
+
+        cur_user_id = intent.getExtras().getString("cur_user_id");
+        mainpage_name.setText(cur_user_id);
 
         keyword = view.findViewById(R.id.followpage_search);
 
@@ -113,17 +121,17 @@ public class Fragment2 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        String id = jsonObject.getString("title");
+                        title = jsonObject.getString("title");
 
-                        String email = jsonObject.getString("detail");
+                        email = jsonObject.getString("detail");
 
-                        String image_path = jsonObject.getString("image_path");
+                        image_path = jsonObject.getString("image_path");
 
 
                         //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
                         image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
 
-                        items.add(0, new FollowItem(image_path, id, email)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                        items.add(0, new FollowItem(image_path, title, email)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
                         adapter.notifyItemInserted(0);
 
 
@@ -158,7 +166,8 @@ public class Fragment2 extends Fragment {
                 Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
                 Intent follow_intent = new Intent(getContext(), MemberActivity.class);
 
-                follow_intent.putExtra( "userId", item.getId() );
+                follow_intent.putExtra( "userId", item.getId());
+                follow_intent.putExtra("cur_user_id", cur_user_id);
 
                 startActivity(follow_intent);
             }

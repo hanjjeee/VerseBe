@@ -90,11 +90,13 @@ public class SearchActivity extends AppCompatActivity {
 
                         String image_path = jsonObject.getString("image_path");
 
+                        //임시
+                        String article_num ="1";
 
                         //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
                         image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
 
-                        items.add(0, new FeedItem(image_path, id, email)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                        items.add(0, new FeedItem(image_path, id, email, article_num)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {

@@ -32,6 +32,8 @@ import org.json.JSONObject;
 public class MemberActivity extends AppCompatActivity {
 
     private String userId;
+    private String cur_user_id;
+
     private TextView memberId;
     private ImageView memberImage;
     private String image_path;
@@ -48,7 +50,10 @@ public class MemberActivity extends AppCompatActivity {
         setContentView(R.layout.activity_memberpage);
 
         Intent intent = getIntent();
+
+
         userId=intent.getExtras().getString("userId");
+        cur_user_id=intent.getExtras().getString("cur_user_id");
         image_path = intent.getExtras().getString("image_path");
 
 

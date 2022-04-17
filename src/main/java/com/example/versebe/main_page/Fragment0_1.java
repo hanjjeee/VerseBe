@@ -39,6 +39,7 @@ import java.util.ArrayList;
 public class Fragment0_1 extends Fragment {
 
     private Intent intent;
+    private String cur_user_id;
 
     public View view;
 
@@ -46,6 +47,13 @@ public class Fragment0_1 extends Fragment {
     private FeedItemAdapter adapter;
     private ArrayList<FeedItem> items;
     private  GridLayoutManager layoutManager;
+
+    //json
+    private String title;
+    private String contents;
+    private String image_path;
+    private String poster_num;
+
 
     public Fragment0_1(Intent intent) {
 
@@ -58,7 +66,7 @@ public class Fragment0_1 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.mainpage_main_feed1, container, false);
-
+        cur_user_id = intent.getExtras().getString("cur_user_id");
 
         //그리드 리사이클러 뷰 불러오기
         items = new ArrayList<FeedItem>();
@@ -101,17 +109,19 @@ public class Fragment0_1 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        String id = jsonObject.getString("TITLE");
+                        title = jsonObject.getString("TITLE");
 
-                        String contents = jsonObject.getString("HASH_TAG");
+                        contents = jsonObject.getString("HASH_TAG");
 
-                        String image_path = jsonObject.getString("THUMBNAIL");
+                        image_path = jsonObject.getString("THUMBNAIL");
+
+                        poster_num = jsonObject.getString("POSTER_NUM");
 
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
                         image_path = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + image_path;
 
-                        items.add(0, new FeedItem(image_path, id, contents));
+                        items.add(0, new FeedItem(image_path, title, contents, poster_num));
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
@@ -144,7 +154,8 @@ public class Fragment0_1 extends Fragment {
 
                 Intent feed_intent = new Intent(getContext(), PosterActivity.class);
 
-                feed_intent.putExtra( "userId", item.getId() );
+                feed_intent.putExtra( "cur_user_id", cur_user_id);
+                feed_intent.putExtra( "POSTER_NUM", item.getPosterNum());
 
                 startActivity(feed_intent);
             }

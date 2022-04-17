@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             intent.putExtra( "userEmail", UserEmail );
                             intent.putExtra( "userPassword", UserPassword);
-                            intent.putExtra( "userId", UserId );
+                            intent.putExtra( "cur_user_id", UserId );
                             intent.putExtra( "userPhone", UserPhone );
                             intent.putExtra( "image_path", UserImage );
 

@@ -77,7 +77,7 @@ public class Fragment0 extends Fragment {
         view = inflater.inflate(mainpage_main, container, false);
 
         mainpage_id = view.findViewById(R.id.mainpage_name);
-        mainpage_id.setText(intent.getExtras().getString("userId"));
+        mainpage_id.setText(intent.getExtras().getString("cur_user_id"));
 
         search_button = view.findViewById(R.id.search_button);
 
