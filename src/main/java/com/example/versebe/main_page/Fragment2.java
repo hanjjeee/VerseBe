@@ -158,6 +158,7 @@ public class Fragment2 extends Fragment {
 
         recyclerView.setAdapter(adapter);
 
+
         //클릭 리스너
         adapter.setOnItemClicklistener(new OnMemberItemClickListener() {
             @Override

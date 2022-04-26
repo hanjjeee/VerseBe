@@ -49,6 +49,8 @@
             android:name=".user.MemberActivity"/>
         <activity
             android:name=".user.PosterActivity"/>
+        <activity
+            android:name=".user.CommentActivity"/>
 
 
 

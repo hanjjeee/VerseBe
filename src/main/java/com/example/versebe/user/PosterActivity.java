@@ -36,6 +36,7 @@ public class PosterActivity extends AppCompatActivity {
     private ImageView poster_image;
     private TextView poster_user_id;
     private ImageButton like_button;
+    private ImageButton comment_button;
 
 
     private ArrayList<CommentItem> items;
@@ -59,6 +60,7 @@ public class PosterActivity extends AppCompatActivity {
         poster_user_id = findViewById(R.id.posterpage_user_id);
 
         like_button = findViewById(R.id.posterpage_like_button);
+        comment_button = findViewById(R.id.comment_button);
 
         like_button.setOnClickListener(new View.OnClickListener(){
 
@@ -106,6 +108,16 @@ public class PosterActivity extends AppCompatActivity {
             }
 
 
+        });
+
+        comment_button.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent( PosterActivity.this, CommentActivity.class );
+                startActivity( intent );
+
+            }
         });
 
 
