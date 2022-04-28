@@ -2,9 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/artist"
-        android:title="작가" />
-    <item
         android:id="@+id/poster"
         android:title="Poster" />
     <item
