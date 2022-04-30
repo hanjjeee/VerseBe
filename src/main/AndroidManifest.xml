@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.versebe">
 
+
+
+
     <!-- 인터넷 권한 선언-->
     <uses-permission android:name="android.permission.INTERNET"/>
     <!-- 인터넷 연결 확인-->
@@ -51,6 +54,9 @@
             android:name=".user.PosterActivity"/>
         <activity
             android:name=".user.CommentActivity"/>
+        <activity
+            android:name=".user.MakePosterActivity"/>
+
 
 
 

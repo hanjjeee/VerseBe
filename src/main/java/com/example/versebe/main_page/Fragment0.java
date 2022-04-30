@@ -39,6 +39,7 @@ import com.example.versebe.user.FeedItemAdapter;
 import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
 import com.example.versebe.user.LoginActivity;
+import com.example.versebe.user.MakePosterActivity;
 import com.example.versebe.user.RegisterActivity;
 import com.example.versebe.user.SearchActivity;
 import com.google.android.material.tabs.TabItem;
@@ -118,8 +119,9 @@ public class Fragment0 extends Fragment {
                         if (menuItem.getItemId() == R.id.poster) {
                             Toast.makeText(getActivity(), "poster 클릭", Toast.LENGTH_SHORT).show();
 
-
                             //포스터 생성 인텐트로 넘어가기
+                            Intent poster_intent = new Intent(getContext(), MakePosterActivity.class);
+                            startActivity(poster_intent);
 
 
                         } else if (menuItem.getItemId() == R.id.layout) {
