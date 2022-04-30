@@ -48,7 +48,7 @@ public class CommentItemAdapter extends RecyclerView.Adapter{
         CommentItem item = items.get(position);
 
         vh.id.setText(item.getId());
-        vh.comment.setText(item.getComment());
+        vh.comment.setText(item.getContent());
         Glide.with(context).load(item.getImage_path()).into(vh.image);
 
 

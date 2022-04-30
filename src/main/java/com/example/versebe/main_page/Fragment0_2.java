@@ -28,7 +28,6 @@ import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
 import com.example.versebe.user.MemberActivity;
 import com.example.versebe.user.OnFeedItemClickListener;
-import com.example.versebe.user.OnMemberItemClickListener;
 import com.example.versebe.user.PosterActivity;
 
 import org.json.JSONArray;
@@ -49,12 +48,21 @@ public class Fragment0_2 extends Fragment {
     private ArrayList<FeedItem> items;
     private  GridLayoutManager layoutManager;
 
-
     //json
+    private String type;
+    private int layout_num;
+    private String thumb_image;
+    private String user_id;
+    private String update_date;
+    private String last_date;
+    private int article_num;
+    private String hash_tag;
+    private String layout_image;
     private String title;
-    private String contents;
-    private String image_path;
-    private String layout_num;
+
+
+
+
 
     public Fragment0_2(Intent intent) {
 
@@ -67,17 +75,16 @@ public class Fragment0_2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.mainpage_main_feed1, container, false);
-
-
-
+        cur_user_id = intent.getExtras().getString("cur_user_id");
 
         //그리드 리사이클러 뷰 불러오기
         items = new ArrayList<FeedItem>();
 
-
         recyclerView = (RecyclerView) view.findViewById(R.id.mainpage_recyclerview);
+
         adapter = new FeedItemAdapter(getContext(), items);
 
+        recyclerView.setAdapter(adapter);
 
         layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
@@ -88,8 +95,11 @@ public class Fragment0_2 extends Fragment {
         //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
         String url = "http://hanjiyoon.dothome.co.kr/layouts.php";
 
+        //결과를 JsonArray 로 받음
+        //JsonArrayRequest를 이용
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
-            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
+
+            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
 
             @Override
             public void onResponse(JSONArray response) {
@@ -108,19 +118,26 @@ public class Fragment0_2 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
+                        type = jsonObject.getString("TYPE");
+                        layout_num = jsonObject.getInt("LAYOUT_NUM");
+                        thumb_image = jsonObject.getString("THUMBNAIL");
+                        user_id = jsonObject.getString("USER_ID");
+                        update_date= jsonObject.getString("UPDATE_DATE");
+                        last_date= jsonObject.getString("LAST_DATE");
+                        article_num = jsonObject.getInt("ARTICLE_NUM");
+                        hash_tag = jsonObject.getString("HASH_TAG");
                         title = jsonObject.getString("TITLE");
+                        layout_image = jsonObject.getString("LAYOUT_IMAGE");
 
-                        contents = jsonObject.getString("HASH_TAG");
-
-                        image_path = jsonObject.getString("THUMBNAIL");
-
-                        layout_num = jsonObject.getString("LAYOUT_NUM");
 
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
-                        image_path = "http://hanjiyoon.dothome.co.kr/layout_thumb/" + image_path;
+                        thumb_image = "http://hanjiyoon.dothome.co.kr/layout_thumb/" + thumb_image;
+                        layout_image = "http://hanjiyoon.dothome.co.kr/layouts/" + article_num;
 
-                        items.add(0, new FeedItem(image_path, title, contents, layout_num));
+                        items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
+                                layout_image,hash_tag,article_num,title));
+
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
@@ -141,8 +158,6 @@ public class Fragment0_2 extends Fragment {
         //요청큐에 요청 객체 생성
         requestQueue.add(jsonArrayRequest);
 
-        recyclerView.setAdapter(adapter);
-
         //클릭 리스너
         adapter.setOnItemClicklistener(new OnFeedItemClickListener() {
 
@@ -150,11 +165,13 @@ public class Fragment0_2 extends Fragment {
             public void onItemClick(FeedItemAdapter.VH holder, View view, int position) {
 
                 FeedItem item = adapter.getItem(position);
-                Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getContext(),"아이템 선택 " + item.getUser_id(), Toast.LENGTH_LONG).show();
+
                 Intent feed_intent = new Intent(getContext(), PosterActivity.class);
 
-                feed_intent.putExtra( "userId", cur_user_id);
-                feed_intent.putExtra( "LAYOUT_NUM", layout_num);
+                feed_intent.putExtra( "cur_user_id", cur_user_id);
+                feed_intent.putExtra( "POSTER_NUM", item.getArticle_num());
 
                 startActivity(feed_intent);
             }

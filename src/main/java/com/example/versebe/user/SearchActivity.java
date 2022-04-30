@@ -28,13 +28,26 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+//전체 작품 검색
 public class SearchActivity extends AppCompatActivity {
 
-    EditText keyword;
-    String get_keyword;
+    private EditText keyword;
+    private String get_keyword;
 
-    ArrayList<FeedItem> items;
-    FeedItemAdapter adapter;
+    private ArrayList<FeedItem> items;
+    private FeedItemAdapter adapter;
+
+
+    private String type;
+    private String thumb_image;
+    private String user_id;
+    private String update_date;
+    private String last_date;
+    private int article_num;
+    private String hash_tag;
+    private String title;
+    private String poster_image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +74,12 @@ public class SearchActivity extends AppCompatActivity {
 
 
         //서버주소
-        String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+        //임시
+        //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+
+        //유저 : search.php파일 생성하기
+        String url = "http://hanjiyoon.dothome.co.kr/search_article.php";
+
 
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
@@ -84,19 +102,23 @@ public class SearchActivity extends AppCompatActivity {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        String id = jsonObject.getString("title");
+                        type = jsonObject.getString("TYPE");
+                        thumb_image = jsonObject.getString("THUMBNAIL");
+                        user_id = jsonObject.getString("USER_ID");
+                        update_date = jsonObject.getString("UPDATE_DATE");
+                        last_date = jsonObject.getString("LAST_DATE");
+                        article_num = jsonObject.getInt("ARTICLE_NUM");
+                        hash_tag = jsonObject.getString("HASH_TAG");
+                        title = jsonObject.getString("TITLE");
+                        poster_image = jsonObject.getString("POSTER_IMAGE");
 
-                        String email = jsonObject.getString("detail");
 
-                        String image_path = jsonObject.getString("image_path");
-
-                        //임시
-                        String article_num ="1";
 
                         //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
-                        image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
+                        thumb_image = "http://hanjiyoon.dothome.co.kr/app_image/" + thumb_image;
 
-                        items.add(0, new FeedItem(image_path, id, email, article_num)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                        items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
+                                poster_image,hash_tag,article_num,title));
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
@@ -156,15 +178,16 @@ public class SearchActivity extends AppCompatActivity {
 
         for (int i = 0; i < items.size(); i++) {
 
-            if (items.get(i).getId().toLowerCase().contains(searchText.toLowerCase())) {
+            if (items.get(i).getUser_id().toLowerCase().contains(searchText.toLowerCase())) {
                 filteredList.add(items.get(i));
             }
-            else if (items.get(i).getDetail().toLowerCase().contains(searchText.toLowerCase())) {
+            else if (items.get(i).getTitle().toLowerCase().contains(searchText.toLowerCase())) {
                 filteredList.add(items.get(i));
             }
-            else if (items.get(i).getImage_path().toLowerCase().contains(searchText.toLowerCase())) {
+            else if (items.get(i).getHash_tag().toLowerCase().contains(searchText.toLowerCase())) {
                 filteredList.add(items.get(i));
             }
+
 
 
         }

@@ -48,6 +48,22 @@ public class Fragment0_3 extends Fragment {
     private ArrayList<FeedItem> items;
     private  GridLayoutManager layoutManager;
 
+    //json
+    private String type;
+    private int poster_num;
+    private String thumb_image;
+    private String user_id;
+    private String update_date;
+    private String last_date;
+    private int article_num;
+    private String hash_tag;
+    private String poster_image;
+    private String title;
+
+
+
+
+
     public Fragment0_3(Intent intent) {
 
         this.intent = intent;
@@ -58,29 +74,32 @@ public class Fragment0_3 extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.mainpage_main_feed1, container, false);
-
-
-
+        view = inflater.inflate(R.layout.mainpage_main_feed1, container, false);
+        cur_user_id = intent.getExtras().getString("cur_user_id");
 
         //그리드 리사이클러 뷰 불러오기
         items = new ArrayList<FeedItem>();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.mainpage_recyclerview);
+
         adapter = new FeedItemAdapter(getContext(), items);
+
         recyclerView.setAdapter(adapter);
 
         layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
 
 
-
         //서버주소
-        String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+        //test 용
+        //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+        String url = "http://hanjiyoon.dothome.co.kr/posters.php";
 
-
+        //결과를 JsonArray 로 받음
+        //JsonArrayRequest를 이용
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
-            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
+
+            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
 
             @Override
             public void onResponse(JSONArray response) {
@@ -99,19 +118,26 @@ public class Fragment0_3 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        String id = jsonObject.getString("title");
+                        type = jsonObject.getString("TYPE");
+                        poster_num = jsonObject.getInt("POSTER_NUM");
+                        thumb_image = jsonObject.getString("THUMBNAIL");
+                        user_id = jsonObject.getString("USER_ID");
+                        update_date= jsonObject.getString("UPDATE_DATE");
+                        last_date= jsonObject.getString("LAST_DATE");
+                        article_num = jsonObject.getInt("ARTICLE_NUM");
+                        hash_tag = jsonObject.getString("HASH_TAG");
+                        title = jsonObject.getString("TITLE");
+                        poster_image = jsonObject.getString("POSTER_IMAGE");
 
-                        String email = jsonObject.getString("detail");
 
-                        String image_path = jsonObject.getString("image_path");
+                        //test
+                        //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
+                        thumb_image = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + thumb_image;
+                        poster_image = "http://hanjiyoon.dothome.co.kr/posters/" + article_num;
 
-                        //임시
-                        String article_num = "1";
+                        items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
+                                poster_image,hash_tag,article_num,title));
 
-                        //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
-                        image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
-
-                        items.add(0, new FeedItem(image_path, id, email, article_num)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
@@ -139,10 +165,13 @@ public class Fragment0_3 extends Fragment {
             public void onItemClick(FeedItemAdapter.VH holder, View view, int position) {
 
                 FeedItem item = adapter.getItem(position);
-                Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
+
+                Toast.makeText(getContext(),"아이템 선택 " + item.getUser_id(), Toast.LENGTH_LONG).show();
+
                 Intent feed_intent = new Intent(getContext(), PosterActivity.class);
 
-                feed_intent.putExtra( "userId", item.getId() );
+                feed_intent.putExtra( "cur_user_id", cur_user_id);
+                feed_intent.putExtra( "ARTICLE_NUM", poster_num);
 
                 startActivity(feed_intent);
             }

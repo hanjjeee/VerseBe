@@ -1,21 +1,24 @@
 package com.example.versebe.user;
 
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.versebe.R;
 
-import org.json.JSONArray;
+import com.example.versebe.R;
+import com.example.versebe.main_page.MainActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,96 +26,106 @@ import java.util.ArrayList;
 
 public class CommentActivity extends AppCompatActivity {
 
-    private ArrayList<CommentItem> items;
-    private RecyclerView recyclerView;
-    private CommentItemAdapter adapter;
-    private LinearLayoutManager layoutManager;
+    private Intent intent;
+    private String cur_user_id;
 
-    //json 추가
-    private String title;
-    private String email;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private ArrayList<CommentItem> items;
+    private CommentItemAdapter adapter;
+
+
+    private int article_num;
+    private String type;
+    private String content;
+    private String user_id;
+    private String update_date;
+    private String last_date;
+
     private String image_path;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
+        super.onCreate( savedInstanceState );
+
         setContentView(R.layout.activity_comment);
 
+        intent = getIntent();
+        article_num=intent.getExtras().getInt("ARTICLE_NUM");
+        cur_user_id=intent.getExtras().getString("cur_user_id");
+
+        //레이아웃
         items = new ArrayList<CommentItem>();
 
 
-        recyclerView = (RecyclerView)findViewById(R.id.comment_recyclerview);
-        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        recyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
         adapter = new CommentItemAdapter(this, items);
 
 
 
+
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
 
+        //서버 연결
+        System.out.println("response listener 전");
+
+        Response.Listener<String> responseListener;
+
+        responseListener = response -> {
+
+            try {
+                System.out.println("on response 후, json 전");
+                System.out.println("hanjiyoon " + response);
+                JSONObject jsonObject = new JSONObject(response);
+
+                System.out.println("json 후, success 전");
+
+                boolean success = jsonObject.getBoolean( "success" );
+                System.out.println(response+"json 후");
 
 
-        //서버주소
-        String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+                if (success) {//로그인 성공시
 
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
-            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
+                    type = jsonObject.getString( "TYPE" );
+                    content = jsonObject.getString( "CONTENT" );
+                    user_id = jsonObject.getString( "USER_ID" );
+                    update_date = jsonObject.getString( "UPDATE_DATE" );
+                    last_date = jsonObject.getString( "LAST_DATE" );
 
-            @Override
-            public void onResponse(JSONArray response) {
+                    //프로필 이미지는 유저 아이디로 검색
+                    image_path = jsonObject.getString( "USER_ID" );
 
-                //db 연결 확인용
-                //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-
-
-                //파라미터로 응답받은 결과 JsonArray를 분석
-                items.clear();
-                adapter.notifyDataSetChanged();
-
-                try {
-
-                    for (int i = 0; i < response.length(); i++) {
-
-                        JSONObject jsonObject = response.getJSONObject(i);
-
-                        title = jsonObject.getString("title");
-
-                        email = jsonObject.getString("detail");
-
-                        image_path = jsonObject.getString("image_path");
+                    Toast.makeText(getApplicationContext(), String.format("고유번호 %s 번 게시물 댓글", article_num), Toast.LENGTH_SHORT).show();
+                    //테스트
 
 
-                        //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
-                        image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
-
-                        items.add(0, new CommentItem(image_path, title, email)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
-                        adapter.notifyItemInserted(0);
-
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }
+                else
+                {
+                    //로그인 실패시
+                    Toast.makeText(getApplicationContext(), article_num+"번 게시글 댓글 불러오기 실패", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
+            } catch (JSONException e) {
+
+                System.out.println("not try");
+                e.printStackTrace();
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        //실제 요청 작업을 수행해주는 요청큐 객체 생성
-        RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+        };
 
-        //요청큐에 요청 객체 생성
-        requestQueue.add(jsonArrayRequest);
+        System.out.println("response listener 후");
 
-        //////end of server
+        CommentRequest commentRequest = new CommentRequest( article_num,type, responseListener );
+        RequestQueue queue = Volley.newRequestQueue( CommentActivity.this );
+        queue.add( commentRequest );
 
-        recyclerView.setAdapter(adapter);
 
 
     }

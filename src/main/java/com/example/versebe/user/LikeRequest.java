@@ -11,16 +11,17 @@ public class LikeRequest extends StringRequest{
 
     // 서버 URL 설정 ( PHP 파일 연동 )
     final static private String URL = "http://hanjiyoon.dothome.co.kr/like.php";
-    private Map<String, String> map;
+    private Map<String,String> map;
 
 
-    public LikeRequest( String userId, String poster_num,  Response.Listener<String> listener) {
+    public LikeRequest( String userId, int article_num, String type,Response.Listener<String> listener) {
         super(Method.POST, URL, listener, null);
 
         map = new HashMap<>();
 
         map.put("USER_ID",userId);
-        map.put("POSTER_NUM", poster_num );
+        map.put("POSTER_NUM", article_num+"");
+        map.put("TYPE", type);
 
     }
 

@@ -49,10 +49,19 @@ public class Fragment0_1 extends Fragment {
     private  GridLayoutManager layoutManager;
 
     //json
+    private String type;
+    private int poster_num;
+    private String thumb_image;
+    private String user_id;
+    private String update_date;
+    private String last_date;
+    private int article_num;
+    private String hash_tag;
+    private String poster_image;
     private String title;
-    private String contents;
-    private String image_path;
-    private String poster_num;
+
+
+
 
 
     public Fragment0_1(Intent intent) {
@@ -82,6 +91,7 @@ public class Fragment0_1 extends Fragment {
 
 
         //서버주소
+
         //test 용
         //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
         String url = "http://hanjiyoon.dothome.co.kr/posters.php";
@@ -109,19 +119,27 @@ public class Fragment0_1 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
+                        type = jsonObject.getString("TYPE");
+                        poster_num = jsonObject.getInt("POSTER_NUM");
+                        thumb_image = jsonObject.getString("THUMBNAIL");
+                        user_id = jsonObject.getString("USER_ID");
+                        update_date= jsonObject.getString("UPDATE_DATE");
+                        last_date= jsonObject.getString("LAST_DATE");
+                        article_num = jsonObject.getInt("ARTICLE_NUM");
+                        hash_tag = jsonObject.getString("HASH_TAG");
                         title = jsonObject.getString("TITLE");
+                        poster_image = jsonObject.getString("POSTER_IMAGE");
 
-                        contents = jsonObject.getString("HASH_TAG");
-
-                        image_path = jsonObject.getString("THUMBNAIL");
-
-                        poster_num = jsonObject.getString("POSTER_NUM");
 
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
-                        image_path = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + image_path;
 
-                        items.add(0, new FeedItem(image_path, title, contents, poster_num));
+                        String thumb_image_path = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + thumb_image;
+                        String poster_image_path = "http://hanjiyoon.dothome.co.kr/posters/" + poster_image;
+
+                        items.add(0, new FeedItem(type,thumb_image_path,user_id,update_date,last_date,
+                                poster_image_path,hash_tag,article_num,title));
+
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {
@@ -150,12 +168,22 @@ public class Fragment0_1 extends Fragment {
 
                 FeedItem item = adapter.getItem(position);
 
-                Toast.makeText(getContext(),"아이템 선택 " + item.getId(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"아이템 선택 " + item.getUser_id(), Toast.LENGTH_LONG).show();
 
                 Intent feed_intent = new Intent(getContext(), PosterActivity.class);
 
                 feed_intent.putExtra( "cur_user_id", cur_user_id);
-                feed_intent.putExtra( "POSTER_NUM", item.getPosterNum());
+
+                feed_intent.putExtra("TYPE", item.getType());
+                feed_intent.putExtra( "ARTICLE_NUM", item.getArticle_num());
+                feed_intent.putExtra("THUMBNAIL", item.getThumb_image());
+                feed_intent.putExtra( "USER_ID", item.getUser_id());
+                feed_intent.putExtra( "UPDATE_DATE", item.getUpdate_date());
+                feed_intent.putExtra("LAST_DATE", item.getLast_date());
+                feed_intent.putExtra("ARTICLE_NUM", item.getArticle_num());
+                feed_intent.putExtra("HASH_TAG", item.getHash_tag());
+                feed_intent.putExtra("POSTER_IMAGE", item.getPoster_image());
+                feed_intent.putExtra("TITLE", item.getTitle());
 
                 startActivity(feed_intent);
             }
