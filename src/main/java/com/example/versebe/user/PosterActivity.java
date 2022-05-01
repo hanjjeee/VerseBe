@@ -69,7 +69,7 @@ public class PosterActivity extends AppCompatActivity {
         article_num = intent.getExtras().getInt("ARTICLE_NUM");;
         hash_tag = intent.getExtras().getString("HASH_TAG");;
         poster_image = intent.getExtras().getString("POSTER_IMAGE");;
-        title = intent.getExtras().getString("TITLE");;
+        title = intent.getExtras().getString("TITLE");
 
 
 

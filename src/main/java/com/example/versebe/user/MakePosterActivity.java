@@ -1,5 +1,6 @@
 package com.example.versebe.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.View;
@@ -56,21 +57,29 @@ public class MakePosterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //웹 페이지 별 크롤링 내용 작성
+                //웹 페이지 별 나누기
                 if(naver_flag){
                     System.out.println("naver flag == true");
-
                 }
                 else if(google_flag){
                     System.out.println("google flag == true");
-
-
                 }
                 else if(daum_flag){
                     System.out.println("daum flag == true");
-
-
                 }
+
+
+                //포스터 생성화면으로 넘어간 후 크롤링 시작 하기
+                //매개변수 param 은 각 flag 모두 넘기기
+                Intent choice_intent = new Intent(MakePosterActivity.this, ChoiceLayout.class);
+
+                choice_intent.putExtra("store_name", store_name);
+                choice_intent.putExtra("naver_flag", naver_flag);
+                choice_intent.putExtra("google_flag", google_flag);
+                choice_intent.putExtra("daum_flag", daum_flag);
+
+                startActivity(choice_intent);
+
 
             }
         });

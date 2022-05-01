@@ -56,6 +56,10 @@
             android:name=".user.CommentActivity"/>
         <activity
             android:name=".user.MakePosterActivity"/>
+        <activity
+            android:name=".user.ChoiceLayout"/>
+        <activity
+            android:name=".user.MakePosterActivity2"/>
 
 
 

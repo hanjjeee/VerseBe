@@ -21,6 +21,7 @@
         tools:layout_editor_absoluteY="1dp">
 
         <LinearLayout
+            android:id="@+id/poster_view_l"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />
@@ -30,7 +31,8 @@
         android:id="@+id/image_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:background="@color/light_gray2"
+        android:background="@color/black"
+        android:foregroundGravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
