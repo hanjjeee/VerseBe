@@ -92,8 +92,9 @@
 
                 <ImageView
                     android:id="@+id/camera1"
-                    android:layout_width="410dp"
-                    android:layout_height="200dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_camera" />
             </FrameLayout>
 
@@ -160,8 +161,9 @@
 
                     <ImageView
                         android:id="@+id/camera2"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:scrollbarDefaultDelayBeforeFade="410"
                         android:src="@android:drawable/ic_menu_camera" />
                 </FrameLayout>
@@ -184,8 +186,9 @@
 
                     <ImageView
                         android:id="@+id/camera3"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:scaleType="fitXY"
                         android:src="@android:drawable/ic_menu_camera" />
                 </FrameLayout>
@@ -254,8 +257,9 @@
 
                 <ImageView
                     android:id="@+id/camera4"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_camera" />
             </FrameLayout>
 
@@ -268,8 +272,9 @@
 
                 <ImageView
                     android:id="@+id/camera5"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_camera" />
             </FrameLayout>
 
@@ -282,8 +287,9 @@
 
                 <ImageView
                     android:id="@+id/camera6"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_camera" />
             </FrameLayout>
 
@@ -341,8 +347,9 @@
 
                     <ImageView
                         android:id="@+id/camera7"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:src="@android:drawable/ic_menu_camera" />
                 </FrameLayout>
 
@@ -357,9 +364,9 @@
 
                 <ImageView
                     android:id="@+id/camera8"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="fill"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_camera" />
             </FrameLayout>
 
@@ -427,8 +434,9 @@
 
                     <ImageView
                         android:id="@+id/camera9"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
                         android:src="@android:drawable/ic_menu_camera" />
                 </FrameLayout>
 

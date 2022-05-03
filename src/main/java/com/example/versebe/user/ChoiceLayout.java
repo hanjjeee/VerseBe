@@ -151,7 +151,7 @@ public class ChoiceLayout extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "아이템 선택 " + item.getUser_id(), Toast.LENGTH_LONG).show();
 
-                Intent make_intent = new Intent(getApplicationContext(), MakePosterActivity2.class);
+                Intent make_intent = new Intent(getApplicationContext(), MakePosterActivity.class);
 
                 make_intent.putExtra("cur_user_id", cur_user_id);
 

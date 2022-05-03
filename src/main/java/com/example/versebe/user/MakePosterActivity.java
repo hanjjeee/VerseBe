@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.versebe.R;
 
+//scrap
 public class MakePosterActivity extends AppCompatActivity {
 
     private Button scrap_button;
@@ -52,6 +54,10 @@ public class MakePosterActivity extends AppCompatActivity {
 
         store_name = store_name_view.getText().toString();
 
+        Sub n_layout = new Sub(getApplicationContext(), 1);
+        LinearLayout con = (LinearLayout)findViewById(R.id.poster_view_l);
+        con.addView(n_layout);
+
         scrap_button.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -71,7 +77,7 @@ public class MakePosterActivity extends AppCompatActivity {
 
                 //포스터 생성화면으로 넘어간 후 크롤링 시작 하기
                 //매개변수 param 은 각 flag 모두 넘기기
-                Intent choice_intent = new Intent(MakePosterActivity.this, ChoiceLayout.class);
+                Intent choice_intent = new Intent(MakePosterActivity.this, MakePosterActivity2.class);
 
                 choice_intent.putExtra("store_name", store_name);
                 choice_intent.putExtra("naver_flag", naver_flag);

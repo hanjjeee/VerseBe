@@ -34,6 +34,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.versebe.R;
+import com.example.versebe.user.ChoiceLayout;
 import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FeedItemAdapter;
 import com.example.versebe.user.FollowItem;
@@ -120,7 +121,7 @@ public class Fragment0 extends Fragment {
                             Toast.makeText(getActivity(), "poster 클릭", Toast.LENGTH_SHORT).show();
 
                             //포스터 생성 인텐트로 넘어가기
-                            Intent poster_intent = new Intent(getContext(), MakePosterActivity.class);
+                            Intent poster_intent = new Intent(getContext(), ChoiceLayout.class);
                             startActivity(poster_intent);
 
 

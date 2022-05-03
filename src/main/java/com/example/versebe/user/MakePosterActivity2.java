@@ -37,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+//make poster
 public class MakePosterActivity2 extends AppCompatActivity {
 
     private Intent intent;
