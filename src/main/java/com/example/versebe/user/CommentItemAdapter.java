@@ -15,12 +15,13 @@ import com.example.versebe.R;
 
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CommentItemAdapter extends RecyclerView.Adapter{
 
 
     Context context;
     ArrayList<CommentItem> items;
-
 
 
     public CommentItemAdapter(Context context, ArrayList<CommentItem> items)
@@ -48,7 +49,7 @@ public class CommentItemAdapter extends RecyclerView.Adapter{
         CommentItem item = items.get(position);
 
         vh.id.setText(item.getId());
-        vh.comment.setText(item.getContent());
+        vh.content.setText(item.getContent());
         Glide.with(context).load(item.getImage_path()).into(vh.image);
 
 
@@ -56,6 +57,7 @@ public class CommentItemAdapter extends RecyclerView.Adapter{
 
 
     public CommentItem getItem(int position){ return items.get(position); }
+
 
 
     @Override
@@ -66,17 +68,18 @@ public class CommentItemAdapter extends RecyclerView.Adapter{
 
     public class VH extends RecyclerView.ViewHolder{
 
-        ImageView image;
+        CircleImageView image;
         TextView id;
-        TextView comment;
+        TextView content;
 
         public VH(@NonNull View itemView)
         {
             super(itemView);
 
             id = itemView.findViewById(R.id.comment_id);
-            comment = itemView.findViewById(R.id.comment_text);
+            content = itemView.findViewById(R.id.comment_text);
             image = itemView.findViewById(R.id.comment_imageview);
+
 
         }
 

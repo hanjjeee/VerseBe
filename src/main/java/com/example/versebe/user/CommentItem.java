@@ -6,8 +6,8 @@ public class CommentItem {
     private String type;
     private String content;
     private String user_id;
-    private String update_date;
-    private String last_date;
+
+    private String content0;
 
     private String image_path;
 
@@ -16,15 +16,14 @@ public class CommentItem {
     public CommentItem() {
     }
 
-    public CommentItem(int article_num, String type, String content, String user_id, String update_date
-    ,String last_date, String image_path) {
+    public CommentItem(int article_num, String type, String content, String user_id, String image_path, String content0) {
 
         this.article_num = article_num;
         this.type = type;
         this.content = content;
         this.user_id = user_id;
-        this.update_date = update_date;
-        this.last_date = last_date;
+
+        this.content0 = content0;
 
         this.image_path = image_path;
     }
@@ -50,26 +49,18 @@ public class CommentItem {
         return this.user_id;
     }
 
-    public void setUpdate_date(String update_date) {
-        this.update_date = update_date;
-    }
-    public String getUpdate_date() {
-        return this.update_date;
-    }
-
-    public void setLast_date(String update_date) {
-        this.last_date = last_date;
-    }
-    public String getLast_date() {
-        return this.last_date;
-    }
-
-
     public void setImage_path(String image_path) {
         this.image_path = image_path;
     }
     public String getImage_path() {
         return this.image_path;
+    }
+
+    public void setContent0(String content0) {
+        this.content0 = content0;
+    }
+    public String getContent0() {
+        return this.content0;
     }
 
 }

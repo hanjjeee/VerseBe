@@ -2,6 +2,7 @@ package com.example.versebe.user;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 
 import java.util.HashMap;
@@ -15,10 +16,14 @@ public class CheckRequest extends StringRequest{
 
 
     public CheckRequest( String getUserId, Response.Listener<String> listener) {
-        super(Method.POST, URL, listener, null);
+        super(Method.POST, URL, listener, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error.toString());
+            }
+        });
 
         map = new HashMap<>();
-
         map.put("userId",getUserId);
 
     }

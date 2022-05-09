@@ -163,7 +163,7 @@ public class ChoiceLayout extends AppCompatActivity {
                 make_intent.putExtra("LAST_DATE", item.getLast_date());
                 make_intent.putExtra("ARTICLE_NUM", item.getArticle_num());
                 make_intent.putExtra("HASH_TAG", item.getHash_tag());
-                make_intent.putExtra("POSTER_IMAGE", item.getPoster_image());
+                make_intent.putExtra("LAYOUT_IMAGE", item.getPoster_image());
                 make_intent.putExtra("TITLE", item.getTitle());
 
                 startActivity(make_intent);

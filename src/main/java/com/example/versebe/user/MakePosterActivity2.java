@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
@@ -34,8 +36,15 @@ import com.example.versebe.R;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 //make poster
 public class MakePosterActivity2 extends AppCompatActivity {
@@ -62,6 +71,25 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private String layout_image;
     private String title;
 
+    private boolean naver_flag;
+    private boolean google_flag;
+    private boolean daum_flag;
+    private String store_name;
+
+     TextView page_storename;
+     TextView page_name;
+     TextView page_category;
+     TextView page_location;
+     TextView page_tel;
+
+
+    String page_name_s;
+    String page_location_s;
+    String page_category_s;
+    String page_tel_s;
+
+
+
 
 
 
@@ -73,6 +101,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         intent = getIntent();
         cur_user_id = intent.getExtras().getString("cur_user_id");
+        naver_flag = intent.getExtras().getBoolean("naver_flag");
+        google_flag = intent.getExtras().getBoolean("google_flag");
+        daum_flag = intent.getExtras().getBoolean("daum_flag");
+        store_name = intent.getExtras().getString("store_name");
 
         type = intent.getExtras().getString("TYPE");
         layout_num = intent.getExtras().getInt("LAYOUT_NUM");;
@@ -84,6 +116,14 @@ public class MakePosterActivity2 extends AppCompatActivity {
         hash_tag = intent.getExtras().getString("HASH_TAG");;
         layout_image = intent.getExtras().getString("LAYOUT_IMAGE");;
         title = intent.getExtras().getString("TITLE");
+
+
+         page_name_s="";
+         page_location_s="";
+         page_category_s="";
+         page_tel_s="";
+
+
 
 
 
@@ -106,17 +146,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
 
-        for(int i=0;i<item_num;i++){
+        //포스터 레이아웃 지정하기
+        if(article_num==1){
 
-            tmp="https://search.pstatic.net/common/?autoRotate=true&quality=95&type=w750&src=https%3A%2F%2Fldb-phinf.pstatic.net%2F20200702_194%2F1593670875426adwKT_JPEG%2FUCqWaYWBENm8UxSWZemPkIff.jpg";
-            ScrapItem item = new ScrapItem(tmp);
-
-            items.add(0, item);
-            adapter.notifyItemInserted(0);
-
-        }
-
-        //if(layout_num==1){
+            System.out.println("article 1");
 
             //버튼 클릭시 해당 xml 가져오기
             Sub n_layout = new Sub(getApplicationContext(), 1);
@@ -135,11 +168,173 @@ public class MakePosterActivity2 extends AppCompatActivity {
             findViewById(R.id.imageView_8).setOnDragListener(  new DragListener());
             findViewById(R.id.imageView_9).setOnDragListener(  new DragListener());
 
-       // }
+            //텍스트 구역
+            page_name = findViewById(R.id.page_name);
+            page_storename = findViewById(R.id.page_storename);
+            page_tel = findViewById(R.id.page_tel);
+            page_category = findViewById(R.id.page_category);
+            page_location = findViewById(R.id.page_location);
+
+
+
+            /*
+            for(int i=0;i<img_arr.length;i++){
+
+                ScrapItem item = new ScrapItem(img_arr[i].toString());
+
+                items.add(0, item);
+                adapter.notifyItemInserted(0);
+            }*/
+
+
+
+
+
+
+
+        }
+        //포스터 레이아웃 지정
+
+
+
+        //크롤링 시작
+        //네이버
+        if(naver_flag==true){
+
+            String url = "https://m.search.naver.com/search.naver?sm=mtb_hty.top&where=m&oquery=d&tqi=hFP7ksprv2NssS%2Bi1MsssssssA4-057492&query="
+                    +store_name;
+
+
+
+            System.out.println(store_name);
+
+            //이미지 개수 가져오기
+            //쓰레드 시작
+            new Thread(new Runnable() {
+
+                @Override public void run() {
+
+
+                    System.out.println("thread start..");
+
+                    try {
+
+                        Document document = Jsoup.connect(url).get();
+                        Element location_element = document.select("#place-main-section-root > div > div.place_section.no_margin._18vYz > div > ul > li._1M_Iz._1aj6- > div > a > span._2yqUQ").first();
+
+                        Element category_element = document.select("#_title > a > span._3ocDE").first();
+                        Element name_element = document.select("#_title > a > span._3XamX").first();
+                        Element tel_element = document.select("#place_main_ct > div > section > div > div.ct_box_area > div.bizinfo_area > div > div:nth-child(1) > div").first();
+                        Elements tel_elements = document.getElementsByClass(".ct_box_area");
+
+                        //test
+                        //System.out.println(tel_elements.text().toString());
+
+                        //Elements img_elements = document.getElementsByAttributeValueContaining("src","https://search.pstatic.net/");
+                        Element img_elements = document.getElementById("ibu_1");
+
+                        //item_num = img_elements.size();
+                        //System.out.println(item_num+"개");
+
+
+
+
+
+
+
+                        if(location_element!=null){
+                            page_location_s += location_element.text().toString();
+                            System.out.println(page_location_s);
+
+                        }
+
+                        if(category_element!=null){
+                            page_category_s += category_element.text().toString();
+                            System.out.println(page_category_s);
+                        }
+
+                        if(tel_element!=null){
+                            page_tel_s += tel_element.text().toString();
+                            System.out.println(page_tel_s);
+                        }
+
+                        if(name_element!=null){
+                            page_name_s += name_element.text().toString();
+                            System.out.println(page_name_s);
+                        }
+
+
+                        //이미지
+                        if(img_elements!=null){
+
+                            System.out.println("img for문 전");
+
+                            for(int i=1;i<=item_num;i++){
+                                //Element img_element =
+                                //System.out.println( img_elements.get(i).toString());
+                                System.out.println(img_elements.toString());
+                            }
+                        }
+
+
+                        runOnUiThread(new Runnable() { public void run() {
+
+                        //뷰 세팅
+                        if(!page_location_s.isEmpty()){
+                            page_location.setText("Loc. "+page_location_s);
+                        }
+                        if(!page_category_s.isEmpty()){
+                            page_category.setText("Category. "+page_category_s);
+                        }
+                        if(!page_name_s.isEmpty()){
+                            page_name.setText("Name. "+page_name_s);
+                            page_storename.setText(page_name_s);
+                        }
+                        if(!page_tel_s.isEmpty()){
+                            page_tel.setText("#. "+page_tel_s);
+                        }
+
+                        } });
+
+
+
+
+                    }catch(IOException e){
+                        e.printStackTrace();
+
+                    }
+
+                }//end of run
+
+
+
+            }).start();
+
+            //쓰레드 끝
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }//네이버 크롤링 끝
+
+
+
+
 
 
 
     }
+
+
 
 
     //드래그 앤 드롭 구현

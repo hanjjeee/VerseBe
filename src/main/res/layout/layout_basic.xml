@@ -16,7 +16,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/page_storename"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:layout_marginBottom="10dp"
@@ -35,7 +35,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/page_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -45,7 +45,7 @@
                     android:textSize="20sp" />
 
                 <TextView
-                    android:id="@+id/textView12"
+                    android:id="@+id/page_category"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -54,7 +54,7 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/page_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
@@ -63,20 +63,11 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/page_tel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:text="Homepage."
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Phone."
+                    android:text="Tel."
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </LinearLayout>

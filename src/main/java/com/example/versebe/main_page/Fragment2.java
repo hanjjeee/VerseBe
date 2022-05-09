@@ -95,11 +95,8 @@ public class Fragment2 extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
 
 
-
-
         //서버주소
         String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
-
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
