@@ -44,6 +44,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Locale;
 
 //make poster
@@ -76,17 +77,19 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private boolean daum_flag;
     private String store_name;
 
-     TextView page_storename;
-     TextView page_name;
-     TextView page_category;
-     TextView page_location;
-     TextView page_tel;
+    TextView page_storename;
+    TextView page_name;
+    TextView page_category;
+    TextView page_location;
+    TextView page_tel;
 
 
     String page_name_s;
     String page_location_s;
     String page_category_s;
     String page_tel_s;
+
+    String[] img_array;
 
 
 
@@ -118,11 +121,11 @@ public class MakePosterActivity2 extends AppCompatActivity {
         title = intent.getExtras().getString("TITLE");
 
 
-         page_name_s="";
-         page_location_s="";
-         page_category_s="";
-         page_tel_s="";
-
+        //텍스트 뷰에 넣을 스트링 - 연결 위해 초기화
+        page_name_s="";
+        page_location_s="";
+        page_category_s="";
+        page_tel_s="";
 
 
 
@@ -139,8 +142,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-
-        item_num=10;
 
         items.clear();
 
@@ -187,26 +188,27 @@ public class MakePosterActivity2 extends AppCompatActivity {
             }*/
 
 
-
-
-
-
-
         }
         //포스터 레이아웃 지정
 
 
 
+
         //크롤링 시작
-        //네이버
+        //네이버 크롤링
         if(naver_flag==true){
 
+            //텍스트뷰 추출 위한 url
             String url = "https://m.search.naver.com/search.naver?sm=mtb_hty.top&where=m&oquery=d&tqi=hFP7ksprv2NssS%2Bi1MsssssssA4-057492&query="
                     +store_name;
 
+            //이미지 src 추출 위한 url (이미지-플레이스검색.플레이스는 업체 등록 이미지)
+            String url2 = "https://m.search.naver.com/search.naver?where=m_image&mode=imgonly&section=place&query="+store_name;
 
 
+            //입력받고 전달받은 상호명 확인
             System.out.println(store_name);
+
 
             //이미지 개수 가져오기
             //쓰레드 시작
@@ -219,77 +221,128 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                     try {
 
+                        //텍스트 위한 document 객체
                         Document document = Jsoup.connect(url).get();
-                        Element location_element = document.select("#place-main-section-root > div > div.place_section.no_margin._18vYz > div > ul > li._1M_Iz._1aj6- > div > a > span._2yqUQ").first();
+                        //이미지 위한 document 객체
+                        Document document2 = Jsoup.connect(url2).get();
 
+                        Element location_element = document.select("#place-main-section-root > div > div.place_section.no_margin._18vYz > div > ul > li._1M_Iz._1aj6- > div > a > span._2yqUQ").first();
                         Element category_element = document.select("#_title > a > span._3ocDE").first();
                         Element name_element = document.select("#_title > a > span._3XamX").first();
                         Element tel_element = document.select("#place_main_ct > div > section > div > div.ct_box_area > div.bizinfo_area > div > div:nth-child(1) > div").first();
-                        Elements tel_elements = document.getElementsByClass(".ct_box_area");
-
-                        //test
-                        //System.out.println(tel_elements.text().toString());
-
-                        //Elements img_elements = document.getElementsByAttributeValueContaining("src","https://search.pstatic.net/");
-                        Element img_elements = document.getElementById("ibu_1");
-
-                        //item_num = img_elements.size();
-                        //System.out.println(item_num+"개");
+                        Elements tel_elements = document.getElementsByClass("._1h3B_");
 
 
 
 
+                        //이미지 페이지 all-test
+                        Elements testing = document2.getAllElements();
+
+
+                        //전체 요소 확인, 1개로 추출되는 스크립트 사진 데이터 저장
+                        String img_array = "";
+
+                        for(int i=0;i<testing.size();i++){
+
+                            String tmp = testing.get(i).toString();
+                            //System.out.println(tmp);
+
+                            if(tmp.contains("var data")){
+                                img_array=tmp;
+                            }
+
+                        }
+
+                        //성공
+                        System.out.println("img_array: " + img_array);
 
 
 
+
+
+
+
+
+
+
+
+
+                        /*
+                        //Elements img_elements = document.getElementsByClass("cb7hz");
+                        Elements img_elements = document2.getElementsMatchingText("originalUrl");
+                        item_num = img_elements.size();
+                        System.out.println(item_num+"개");
+
+
+                        //이미지
+
+                        if(img_elements!=null){
+
+                            System.out.println("img for문 전");
+
+                            for(int i=0;i<item_num;i++){
+                                System.out.println(img_elements.get(i).toString());
+
+                            }
+                        }
+                        //end of img
+
+                    */
+
+
+
+
+
+
+                        //추출한 위치 정보 존재하는 경우 위치 스트링에 문자열 저장
                         if(location_element!=null){
                             page_location_s += location_element.text().toString();
                             System.out.println(page_location_s);
 
                         }
 
+                        //추출한 카테고리 정보 존재하는 경우 카테고리 스트링에 문자열 저장
                         if(category_element!=null){
                             page_category_s += category_element.text().toString();
                             System.out.println(page_category_s);
                         }
 
+                        //추출한 전화번호 정보 존재하는 경우 전화번호 스트링에 문자열 저장
                         if(tel_element!=null){
                             page_tel_s += tel_element.text().toString();
                             System.out.println(page_tel_s);
                         }
 
+                        //추출한 이름 정보 존재하는 경우 이름 스트링에 문자열 저장
                         if(name_element!=null){
                             page_name_s += name_element.text().toString();
                             System.out.println(page_name_s);
                         }
 
 
-                        //이미지
-                        if(img_elements!=null){
-
-                            System.out.println("img for문 전");
-
-                            for(int i=1;i<=item_num;i++){
-                                //Element img_element =
-                                //System.out.println( img_elements.get(i).toString());
-                                System.out.println(img_elements.toString());
-                            }
-                        }
 
 
+
+                        //UI 뷰 세팅 위한 thread
                         runOnUiThread(new Runnable() { public void run() {
 
-                        //뷰 세팅
+                        //스트링이 존재한다면 위치 뷰 세팅
                         if(!page_location_s.isEmpty()){
                             page_location.setText("Loc. "+page_location_s);
                         }
+
+                        //스트링이 존재한다면 카테고리 뷰 세팅
                         if(!page_category_s.isEmpty()){
                             page_category.setText("Category. "+page_category_s);
                         }
+
+                        //스트링이 존재한다면 이름, 제목 뷰 세팅
                         if(!page_name_s.isEmpty()){
                             page_name.setText("Name. "+page_name_s);
                             page_storename.setText(page_name_s);
                         }
+
+                        //스트링이 존재한다면 전화번호 뷰 세팅
                         if(!page_tel_s.isEmpty()){
                             page_tel.setText("#. "+page_tel_s);
                         }
