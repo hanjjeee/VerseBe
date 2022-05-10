@@ -45,7 +45,10 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
+import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 //make poster
 public class MakePosterActivity2 extends AppCompatActivity {
@@ -89,7 +92,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
     String page_category_s;
     String page_tel_s;
 
-    String[] img_array;
+    List<String> img_array;
 
 
 
@@ -128,6 +131,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
         page_tel_s="";
 
 
+        //이미지 주소 어레이 리스트
+        img_array = new ArrayList<>();
 
 
         //리사이클러뷰
@@ -168,6 +173,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
             findViewById(R.id.imageView_7).setOnDragListener(  new DragListener());
             findViewById(R.id.imageView_8).setOnDragListener(  new DragListener());
             findViewById(R.id.imageView_9).setOnDragListener(  new DragListener());
+            findViewById(R.id.image_recyclerview).setOnDragListener(  new DragListener());
 
             //텍스트 구역
             page_name = findViewById(R.id.page_name);
@@ -178,14 +184,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
 
-            /*
-            for(int i=0;i<img_arr.length;i++){
 
-                ScrapItem item = new ScrapItem(img_arr[i].toString());
-
-                items.add(0, item);
-                adapter.notifyItemInserted(0);
-            }*/
 
 
         }
@@ -197,6 +196,9 @@ public class MakePosterActivity2 extends AppCompatActivity {
         //크롤링 시작
         //네이버 크롤링
         if(naver_flag==true){
+
+            //이미지 src 초기화
+            img_array.clear();
 
             //텍스트뷰 추출 위한 url
             String url = "https://m.search.naver.com/search.naver?sm=mtb_hty.top&where=m&oquery=d&tqi=hFP7ksprv2NssS%2Bi1MsssssssA4-057492&query="
@@ -214,6 +216,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
             //쓰레드 시작
             new Thread(new Runnable() {
 
+                @RequiresApi(api = Build.VERSION_CODES.N)
                 @Override public void run() {
 
 
@@ -240,7 +243,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
                         //전체 요소 확인, 1개로 추출되는 스크립트 사진 데이터 저장
-                        String img_array = "";
+                        String img_data = "";
 
                         for(int i=0;i<testing.size();i++){
 
@@ -248,46 +251,38 @@ public class MakePosterActivity2 extends AppCompatActivity {
                             //System.out.println(tmp);
 
                             if(tmp.contains("var data")){
-                                img_array=tmp;
+                                img_data=tmp;
                             }
 
                         }
 
                         //성공
-                        System.out.println("img_array: " + img_array);
+                        System.out.println("img_data: " + img_data);
 
 
+                        //토큰 분리 "" 로 분리 후 https 포함하는 요소를 추가, 어레이테 본 주소 전체 저장
+                        StringTokenizer st = new StringTokenizer(img_data,"\"");
 
+                        while(st.hasMoreTokens()) {
 
+                            String token=st.nextToken();
 
+                            if( token.contains("https") && token.contains(".jpg") && !token.contains("3Dsc960_832") &&!token.contains("3Da340") ) {
 
-
-
-
-
-
-
-                        /*
-                        //Elements img_elements = document.getElementsByClass("cb7hz");
-                        Elements img_elements = document2.getElementsMatchingText("originalUrl");
-                        item_num = img_elements.size();
-                        System.out.println(item_num+"개");
-
-
-                        //이미지
-
-                        if(img_elements!=null){
-
-                            System.out.println("img for문 전");
-
-                            for(int i=0;i<item_num;i++){
-                                System.out.println(img_elements.get(i).toString());
-
+                                img_array.add("https://search.pstatic.net/common/?src="+token);
                             }
-                        }
-                        //end of img
 
-                    */
+                        }
+
+                        img_array=img_array.stream().distinct().collect(Collectors.toList());
+
+                        for(int i=0;i<img_array.size();i++){
+                            System.out.println(img_array.get(i));
+                        }
+
+
+
+
 
 
 
@@ -326,26 +321,39 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         //UI 뷰 세팅 위한 thread
                         runOnUiThread(new Runnable() { public void run() {
 
-                        //스트링이 존재한다면 위치 뷰 세팅
-                        if(!page_location_s.isEmpty()){
-                            page_location.setText("Loc. "+page_location_s);
-                        }
+                            //스트링이 존재한다면 위치 뷰 세팅
+                            if(!page_location_s.isEmpty()){
+                                page_location.setText("Loc. "+page_location_s);
+                            }
 
-                        //스트링이 존재한다면 카테고리 뷰 세팅
-                        if(!page_category_s.isEmpty()){
-                            page_category.setText("Category. "+page_category_s);
-                        }
+                            //스트링이 존재한다면 카테고리 뷰 세팅
+                            if(!page_category_s.isEmpty()){
+                                page_category.setText("Category. "+page_category_s);
+                            }
 
-                        //스트링이 존재한다면 이름, 제목 뷰 세팅
-                        if(!page_name_s.isEmpty()){
-                            page_name.setText("Name. "+page_name_s);
-                            page_storename.setText(page_name_s);
-                        }
+                            //스트링이 존재한다면 이름, 제목 뷰 세팅
+                            if(!page_name_s.isEmpty()){
+                                page_name.setText("Name. "+page_name_s);
+                                page_storename.setText(page_name_s);
+                            }
 
-                        //스트링이 존재한다면 전화번호 뷰 세팅
-                        if(!page_tel_s.isEmpty()){
-                            page_tel.setText("#. "+page_tel_s);
-                        }
+                            //스트링이 존재한다면 전화번호 뷰 세팅
+                            if(!page_tel_s.isEmpty()){
+                                page_tel.setText("#. "+page_tel_s);
+                            }
+
+                            //리사이클러뷰
+                            for(int i=0;i<img_array.size();i++) {
+                                String image_path = img_array.get(i);
+
+                                ScrapItem item = new ScrapItem(image_path);
+
+                                items.add(0, item); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                                adapter.notifyItemInserted(0);
+
+
+
+                            }
 
                         } });
 
@@ -399,7 +407,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
             ClipData.Item item = new ClipData.Item(
                     (CharSequence) view.getTag());
 
-            String[] mimeTypes = { ClipDescription.MIMETYPE_TEXT_PLAIN };
+            String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
             ClipData data = new ClipData(view.getTag().toString(),
                     mimeTypes, item);
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(
@@ -408,13 +416,14 @@ public class MakePosterActivity2 extends AppCompatActivity {
             view.startDrag(data, // data to be dragged
                     shadowBuilder, // drag shadow
                     view, // 드래그 드랍할  Vew
-                    0 // 필요없은 플래그
+                    0
             );
 
             view.setVisibility(View.INVISIBLE);
             return true;
         }
     }
+
 
     class DragListener implements View.OnDragListener {
         Drawable normalShape = getResources().getDrawable(
@@ -467,32 +476,21 @@ public class MakePosterActivity2 extends AppCompatActivity {
                             v == findViewById(R.id.imageView_8)||
                             v == findViewById(R.id.imageView_9)
 
-
-
-
-
-
                     ){
 
                         View view = (View) event.getLocalState();
                         ViewGroup viewgroup = (ViewGroup) view.getParent();
                         viewgroup.removeView(view);
 
-                        // change the text
-                        /*
-                        TextView text = (TextView) v
-                                .findViewById(R.id.text);
-                        text.setText("이미지가 드랍되었습니다.");
-                        */
-
-
 
                         FrameLayout containView = (FrameLayout) v;
 
 
-                        FrameLayout.LayoutParams p = new FrameLayout.LayoutParams(containView.getMeasuredWidth(),containView.getMeasuredHeight());
+                        FrameLayout.LayoutParams p =
+                                new FrameLayout.LayoutParams(containView.getMeasuredWidth(),containView.getMeasuredHeight());
 
                         view.setLayoutParams(p);
+
 
                         containView.addView(view);
 
@@ -503,9 +501,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         ViewGroup viewgroup = (ViewGroup) view
                                 .getParent();
                         viewgroup.removeView(view);
-
-
-                        view.setVisibility(View.INVISIBLE);
 
                     }else {
                         View view = (View) event.getLocalState();
@@ -520,6 +515,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                 case DragEvent.ACTION_DRAG_ENDED:
                     Log.d("DragClickListener", "ACTION_DRAG_ENDED");
+
                     if(!(v.getId() == findViewById(R.id.image_recyclerview).getId()))
                         v.setBackground(normalShape); // go back to normal shape
 
@@ -529,6 +525,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
             return true;
         }
     }
+
+
 
 
 
