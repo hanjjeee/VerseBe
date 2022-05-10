@@ -289,6 +289,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
 
+
                         //추출한 위치 정보 존재하는 경우 위치 스트링에 문자열 저장
                         if(location_element!=null){
                             page_location_s += location_element.text().toString();
@@ -320,6 +321,28 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         //UI 뷰 세팅 위한 thread
                         runOnUiThread(new Runnable() { public void run() {
+
+                            //오류 출력
+                            //오류 출력
+                            //일부 정보 크롤링 실패
+                            if(location_element==null||category_element==null||name_element==null||
+                                    tel_element==null){
+                                Toast.makeText(getApplicationContext(), "일부 텍스트 정보는 가져오지 못했어요!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            //전체 정보 크롤링 실패
+                            if(location_element==null&&category_element==null&&name_element==null&&
+                                    tel_element==null){
+                                Toast.makeText(getApplicationContext(), "등록된 정보가 없어요! 업체명을 확인해주세요!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            //이미지 크롤링 실패
+                            if(img_array.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "등록된 이미지가 없어요! 업체명을 확인해주세요!", Toast.LENGTH_SHORT).show();
+
+                            }
 
                             //스트링이 존재한다면 위치 뷰 세팅
                             if(!page_location_s.isEmpty()){
