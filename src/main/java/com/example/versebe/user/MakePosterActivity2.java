@@ -294,7 +294,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                             String token=st.nextToken();
 
-                            if( token.contains("https") && token.contains(".jpg") && !token.contains("3Dsc960_832") &&!token.contains("3Da340") ) {
+                            if( token.contains("https") && (token.contains(".jpg")||token.contains(".png")) && !token.contains("3Dsc960_832") &&!token.contains("3Da340") ) {
 
                                 img_array.add("https://search.pstatic.net/common/?src="+token);
                             }
