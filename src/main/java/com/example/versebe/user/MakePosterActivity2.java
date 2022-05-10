@@ -94,6 +94,11 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
     List<String> img_array;
 
+    Element location_element;
+    Element category_element;
+    Element name_element;
+    Element tel_element;
+
 
 
 
@@ -229,17 +234,39 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         //이미지 위한 document 객체
                         Document document2 = Jsoup.connect(url2).get();
 
-                        Element location_element = document.select("#place-main-section-root > div > div.place_section.no_margin._18vYz > div > ul > li._1M_Iz._1aj6- > div > a > span._2yqUQ").first();
-                        Element category_element = document.select("#_title > a > span._3ocDE").first();
-                        Element name_element = document.select("#_title > a > span._3XamX").first();
-                        Element tel_element = document.select("#place_main_ct > div > section > div > div.ct_box_area > div.bizinfo_area > div > div:nth-child(1) > div").first();
-                        Elements tel_elements = document.getElementsByClass("._1h3B_");
+                        //기본
+                        location_element = document.select("#place-main-section-root > div > div.place_section.no_margin._18vYz > div > ul > li._1M_Iz._1aj6- > div > a > span._2yqUQ").first();
+                        category_element = document.select("#_title > a > span._3ocDE").first();
+                        name_element = document.select("#_title > a > span._3XamX").first();
+                        tel_element = document.select("#place-main-section-root > div > div.place_section.GCwOh > div._374df > div > span:nth-child(1) > a").first();
+                        //없는 경우 2차
+                        if(location_element==null){
+                            location_element = document.select("#loc-main-section-root > div > div:nth-child(5) > ul > li > div._3ZU00._1rBq3 > div > div > span:nth-child(2) > a > span._3hCbH").first();
+                        }
+                        if(name_element==null){
+                            name_element= document.select("#loc-main-section-root > div > div:nth-child(5) > ul > li > div._3ZU00._1rBq3 > a:nth-child(1) > div > div > span._3Apve > mark").first();
+                        }
+                        if(category_element==null){
+                            category_element = document.select("#loc-main-section-root > div > div:nth-child(5) > ul > li > div._3ZU00._1rBq3 > a:nth-child(1) > div > div > span._3B6hV").first();
+                        }
+                        if(tel_element==null){
+                            tel_element =document.select("#loc-main-section-root > div > div:nth-child(5) > ul > li > div._1z35p > div > div > span:nth-child(1) > a").first();
+                        }
 
 
 
 
                         //이미지 페이지 all-test
                         Elements testing = document2.getAllElements();
+
+
+                        //안나오는 정보 테스팅
+                        /*
+                        Elements testing2 = document.getAllElements();
+                        for(int i=0;i<testing2.size();i++){
+                            System.out.println(testing2.get(i).toString());
+                        }
+                        */
 
 
                         //전체 요소 확인, 1개로 추출되는 스크립트 사진 데이터 저장
@@ -297,6 +324,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         }
 
+
                         //추출한 카테고리 정보 존재하는 경우 카테고리 스트링에 문자열 저장
                         if(category_element!=null){
                             page_category_s += category_element.text().toString();
@@ -305,7 +333,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         //추출한 전화번호 정보 존재하는 경우 전화번호 스트링에 문자열 저장
                         if(tel_element!=null){
-                            page_tel_s += tel_element.text().toString();
+
+                            page_tel_s += tel_element.attr("href");
                             System.out.println(page_tel_s);
                         }
 
