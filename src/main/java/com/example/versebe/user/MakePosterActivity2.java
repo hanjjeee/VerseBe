@@ -198,7 +198,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
 
-        //크롤링 시작
+        //크롤링 시작 : 이미지 추출은 업체출처가 확실하고 사진 정보가 많은 네이버로 고정
+
         //네이버 크롤링
         if(naver_flag==true){
 
@@ -438,6 +439,239 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
         }//네이버 크롤링 끝
+
+
+        //구글 크롤링 시작
+        //구글 크롤링
+        else if(google_flag==true){
+
+            //이미지 src 초기화
+            img_array.clear();
+
+            //텍스트뷰 추출 위한 url
+            String url = "https://www.google.com/search?q="
+                    +store_name;
+
+            //이미지 src 추출 위한 url (이미지-플레이스검색.플레이스는 업체 등록 이미지)
+            String url2 = "https://m.search.naver.com/search.naver?where=m_image&mode=imgonly&section=place&query="+store_name;
+
+
+            //입력받고 전달받은 상호명 확인
+            System.out.println(store_name);
+
+
+            //이미지 개수 가져오기
+            //쓰레드 시작
+            new Thread(new Runnable() {
+
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override public void run() {
+
+
+                    System.out.println("thread start..");
+
+                    try {
+
+                        //텍스트 위한 document 객체
+                        Document document = Jsoup.connect(url).get();
+                        //이미지 위한 document 객체 - 네이버 고정
+                        Document document2 = Jsoup.connect(url2).get();
+
+                        //기본
+                        location_element = document.getElementsByClass("QsDR1c").first();//ok
+                        category_element = document.getElementsByAttributeValue("data-attrid","kc:/local:one line summary").first();//ok
+                        name_element = document.getElementsByAttributeValue("data-attrid","title").first();//ok
+                        tel_element = document.getElementsByAttributeValue("data-attrid","kc:/collection/knowledge_panels/has_phone:phone").first();
+
+
+
+
+
+
+
+                        //이미지 페이지 all-test
+                        Elements testing = document2.getAllElements();
+
+
+                        //안나오는 정보 테스팅
+                        /*
+                        Elements testing2 = document.getAllElements();
+                        for(int i=0;i<testing2.size();i++){
+                            //System.out.println(testing2.get(i).toString());
+                        }
+                        */
+
+
+
+
+                        //전체 요소 확인, 1개로 추출되는 스크립트 사진 데이터 저장
+                        String img_data = "";
+
+                        for(int i=0;i<testing.size();i++){
+
+                            String tmp = testing.get(i).toString();
+                            //System.out.println(tmp);
+
+                            if(tmp.contains("var data")){
+                                img_data=tmp;
+                            }
+
+                        }
+
+
+
+                        //성공
+                        System.out.println("img_data: " + img_data);
+
+
+
+                        //토큰 분리 "" 로 분리 후 https 포함하는 요소를 추가, 어레이테 본 주소 전체 저장
+                        StringTokenizer st = new StringTokenizer(img_data,"\"");
+
+                        while(st.hasMoreTokens()) {
+
+                            String token=st.nextToken();
+
+                            if( token.contains("https") && (token.contains(".jpg")||token.contains(".png")) && !token.contains("3Dsc960_832") &&!token.contains("3Da340") ) {
+
+                                img_array.add("https://search.pstatic.net/common/?src="+token);
+                            }
+
+                        }
+
+                        img_array=img_array.stream().distinct().collect(Collectors.toList());
+
+                        for(int i=0;i<img_array.size();i++){
+                            System.out.println(img_array.get(i));
+                        }
+
+
+
+
+
+
+                        //추출한 위치 정보 존재하는 경우 위치 스트링에 문자열 저장
+                        if(location_element!=null){
+                            page_location_s += location_element.text().toString();
+                            System.out.println(page_location_s);
+
+                        }
+
+
+                        //추출한 카테고리 정보 존재하는 경우 카테고리 스트링에 문자열 저장
+                        if(category_element!=null){
+                            page_category_s += category_element.text().toString();
+                            System.out.println(page_category_s);
+                        }
+
+                        //추출한 전화번호 정보 존재하는 경우 전화번호 스트링에 문자열 저장
+                        if(tel_element!=null){
+
+                            page_tel_s += tel_element.text().toString();
+                            System.out.println(page_tel_s);
+                        }
+
+                        //추출한 이름 정보 존재하는 경우 이름 스트링에 문자열 저장
+                        if(name_element!=null){
+                            page_name_s += name_element.text().toString();
+                            System.out.println(page_name_s);
+                        }
+
+
+
+
+
+                        //UI 뷰 세팅 위한 thread
+                        runOnUiThread(new Runnable() { public void run() {
+
+                            //오류 출력
+                            //오류 출력
+                            //일부 정보 크롤링 실패
+                            if(location_element==null||category_element==null||name_element==null||
+                                    tel_element==null){
+                                Toast.makeText(getApplicationContext(), "일부 텍스트 정보는 가져오지 못했어요!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                            //전체 정보 크롤링 실패
+                            if(location_element==null&&category_element==null&&name_element==null&&
+                                    tel_element==null){
+                                Toast.makeText(getApplicationContext(), "등록된 정보가 없어요! 업체명을 확인해주세요!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+                            //이미지 크롤링 실패
+                            if(img_array.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "등록된 이미지가 없어요! 업체명을 확인해주세요!", Toast.LENGTH_SHORT).show();
+
+                            }
+
+
+
+                            //스트링이 존재한다면 위치 뷰 세팅
+                            if(!page_location_s.isEmpty()){
+                                page_location.setText("Loc. "+page_location_s);
+                            }
+
+                            //스트링이 존재한다면 카테고리 뷰 세팅
+                            if(!page_category_s.isEmpty()){
+                                page_category.setText("Category. "+page_category_s);
+                            }
+
+                            //스트링이 존재한다면 이름, 제목 뷰 세팅
+                            if(!page_name_s.isEmpty()){
+                                page_name.setText("Name. "+page_name_s);
+                                page_storename.setText(page_name_s);
+                            }
+
+                            //스트링이 존재한다면 전화번호 뷰 세팅
+                            if(!page_tel_s.isEmpty()){
+                                page_tel.setText("#. "+page_tel_s);
+                            }
+
+
+                            //리사이클러뷰
+                            for(int i=0;i<img_array.size();i++) {
+                                String image_path = img_array.get(i);
+
+                                ScrapItem item = new ScrapItem(image_path);
+
+                                items.add(0, item); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                                adapter.notifyItemInserted(0);
+
+
+
+                            }
+
+
+
+
+                        } });
+
+
+
+
+                    }catch(IOException e){
+                        e.printStackTrace();
+
+                    }
+
+                }//end of run
+
+
+
+            }).start();
+
+            //쓰레드 끝
+
+
+
+        }//구글 크롤링 끝
+
+
+        //다음 크롤링 시작
+
 
 
 
