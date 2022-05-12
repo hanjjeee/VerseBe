@@ -59,6 +59,7 @@ public class Fragment0_1 extends Fragment {
     private String hash_tag;
     private String poster_image;
     private String title;
+    private String content;
 
 
 
@@ -129,6 +130,7 @@ public class Fragment0_1 extends Fragment {
                         hash_tag = jsonObject.getString("HASH_TAG");
                         title = jsonObject.getString("TITLE");
                         poster_image = jsonObject.getString("POSTER_IMAGE");
+                        content = jsonObject.getString("CONTENT");
 
 
                         //test
@@ -138,7 +140,7 @@ public class Fragment0_1 extends Fragment {
                         String poster_image_path = "http://hanjiyoon.dothome.co.kr/posters/" + poster_image;
 
                         items.add(0, new FeedItem(type,thumb_image_path,user_id,update_date,last_date,
-                                poster_image_path,hash_tag,article_num,title));
+                                poster_image_path,hash_tag,article_num,title, content));
 
                         adapter.notifyItemInserted(0);
                     }
@@ -184,6 +186,7 @@ public class Fragment0_1 extends Fragment {
                 feed_intent.putExtra("HASH_TAG", item.getHash_tag());
                 feed_intent.putExtra("POSTER_IMAGE", item.getPoster_image());
                 feed_intent.putExtra("TITLE", item.getTitle());
+                feed_intent.putExtra("CONTENT", item.getContent());
 
                 startActivity(feed_intent);
             }

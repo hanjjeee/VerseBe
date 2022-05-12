@@ -7,7 +7,7 @@ public class CommentItem {
     private String content;
     private String user_id;
 
-    private String content0;
+
 
     private String image_path;
 
@@ -16,14 +16,13 @@ public class CommentItem {
     public CommentItem() {
     }
 
-    public CommentItem(int article_num, String type, String content, String user_id, String image_path, String content0) {
+    public CommentItem(int article_num, String type, String content, String user_id, String image_path) {
 
         this.article_num = article_num;
         this.type = type;
         this.content = content;
         this.user_id = user_id;
 
-        this.content0 = content0;
 
         this.image_path = image_path;
     }
@@ -56,11 +55,5 @@ public class CommentItem {
         return this.image_path;
     }
 
-    public void setContent0(String content0) {
-        this.content0 = content0;
-    }
-    public String getContent0() {
-        return this.content0;
-    }
 
 }

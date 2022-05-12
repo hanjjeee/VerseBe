@@ -40,6 +40,7 @@ public class PosterActivity extends AppCompatActivity {
     private String hash_tag;
     private String poster_image;
     private String title;
+    private String content;
 
     private String cur_user_id;
 
@@ -70,7 +71,7 @@ public class PosterActivity extends AppCompatActivity {
         hash_tag = intent.getExtras().getString("HASH_TAG");;
         poster_image = intent.getExtras().getString("POSTER_IMAGE");;
         title = intent.getExtras().getString("TITLE");
-
+        content = intent.getExtras().getString("CONTENT");
 
 
 
@@ -111,9 +112,6 @@ public class PosterActivity extends AppCompatActivity {
                             if (success) {
 
                                 //서버주소
-
-                                //test 용
-                                //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
                                 String url = "http://hanjiyoon.dothome.co.kr/like.php";
 
                                 //결과를 JsonArray 로 받음
@@ -204,6 +202,7 @@ public class PosterActivity extends AppCompatActivity {
                 intent2.putExtra("HASH_TAG", hash_tag);
                 intent2.putExtra("POSTER_IMAGE", poster_image);
                 intent2.putExtra("TITLE", title);
+                intent2.putExtra("CONTENT", content);
 
 
 

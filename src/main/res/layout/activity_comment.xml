@@ -8,30 +8,60 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="@color/black"
+        android:dividerHeight="2dp"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_gray2"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="CONTENT"
+            android:textAllCaps="false"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/text_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="소개가 없습니다."
+                android:textColor="@color/black" />
+        </ScrollView>
+
+        <View
+            android:id="@+id/divider5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/hash_tag_view"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:padding="10dp"
+            android:textColor="@color/purple_700" />
+
+        <View
+            android:id="@+id/divider6"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/comment_recyclerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/hashtag_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="350dp">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/text_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </androidx.recyclerview.widget.RecyclerView>
-        </ScrollView>
 
     </LinearLayout>
 

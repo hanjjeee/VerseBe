@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,12 +33,16 @@ import java.util.Map;
 
 public class CommentActivity extends AppCompatActivity {
 
+    //포스터 정보 받는 것
     private Intent intent;
     private String cur_user_id;
     private String hash_tag;
+    private String content;
 
-    private RecyclerView recyclerView,recyclerView2, recyclerView3 ;
-    private LinearLayoutManager layoutManager,layoutManager2,layoutManager3;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager layoutManager;
+    private TextView text_view;
+    private TextView hash_tag_view;
 
     //해시태그, 텍스트 추가하기
     private ArrayList<CommentItem> items;
@@ -46,11 +51,12 @@ public class CommentActivity extends AppCompatActivity {
 
 
 
+    //comment 서버에서 받을 것
     private int article_num;
     private String type;
-    private String content;
     private String user_id;
-    private String content0;
+    private String comment;
+
 
     private String image_path;
 
@@ -66,7 +72,8 @@ public class CommentActivity extends AppCompatActivity {
         article_num=intent.getExtras().getInt("ARTICLE_NUM");
         cur_user_id=intent.getExtras().getString("cur_user_id");
         type =intent.getExtras().getString("TYPE");
-        hash_tag = intent.getExtras().getString("CONTENT");
+        hash_tag = intent.getExtras().getString("HASH_TAG");
+        content = intent.getExtras().getString("CONTENT");
 
 
         //레이아웃
@@ -74,9 +81,16 @@ public class CommentActivity extends AppCompatActivity {
 
 
         recyclerView = (RecyclerView) findViewById(R.id.comment_recyclerview);
-        //recyclerView2 = (RecyclerView) findViewById(R.id.text_recyclerview);
-        //recyclerView3 = (RecyclerView) findViewById(R.id.hashtag_recyclerview);
+        hash_tag_view = findViewById(R.id.hash_tag_view);
+        text_view = findViewById(R.id.text_view);
 
+        //해시태그, 커멘트 는 세팅
+        hash_tag_view.setText(hash_tag);
+        text_view.setText(content);
+
+
+
+        //댓글 구현
         adapter = new CommentItemAdapter(this, items);
         layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
@@ -107,13 +121,12 @@ public class CommentActivity extends AppCompatActivity {
 
                         article_num = jsonObject.getInt("ARTICLE_NUM");
                         type = jsonObject.getString("TYPE");
-                        content = jsonObject.getString("CONTENT");
-                        content0 = jsonObject.getString("CONTENT0");
+                        comment = jsonObject.getString("CONTENT");
                         user_id = jsonObject.getString("USER_ID");
 
                         image_path = "http://hanjiyoon.dothome.co.kr/profile/"+user_id+".jpg";
 
-                        items.add(0, new CommentItem(article_num, type, content, user_id, image_path, content0)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
+                        items.add(0, new CommentItem(article_num, type, comment, user_id, image_path)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
                         adapter.notifyItemInserted(0);
 
                     }
