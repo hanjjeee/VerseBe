@@ -3,44 +3,66 @@ package com.example.versebe.user;
 import androidx.annotation.Nullable;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CommentRequest extends JsonArrayRequest {
+public class CommentRequest extends Request {
 
-    //서버 URL 설정(php 파일 연동)
-    final static private String URL = "http://hanjiyoon.dothome.co.kr/comments.php";
 
-    private Map<String, String> map;
+    private Map mMap;
+    private Response.Listener mListener;
 
-    public CommentRequest(String article_num, Response.Listener<JSONArray> listener) {
 
-        super(URL, listener, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+    public CommentRequest(String url, Response.Listener listener, Response.ErrorListener errorListener, Map map) {
+        super(Request.Method.POST, url, errorListener);
+        mListener=listener;
+        mMap=map;
 
-                System.out.println(error.getLocalizedMessage());
-                System.out.println("뮹");
-            }
-        });
-
-        map = new HashMap<>();
-        map.put("ARTICLE_NUM", article_num);
-
+        // TODO Auto-generated constructor stub
+    }
+    @Override
+    protected Map getParams() throws AuthFailureError {
+        // TODO Auto-generated method stub
+        return mMap;
     }
 
     @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        return map;
+    protected Response parseNetworkResponse(NetworkResponse response) {
+        try {
+            String jsonString =
+                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+            return Response.success(new JSONArray(jsonString),
+                    HttpHeaderParser.parseCacheHeaders(response));
+        } catch (UnsupportedEncodingException e) {
+            return Response.error(new ParseError(e));
+        } catch (JSONException je) {
+            return Response.error(new ParseError(je));
+        }
     }
 
+    @Override
+    protected void deliverResponse(Object response) {
+        mListener.onResponse(response);
+    }
+
+
+
+    @Override
+    public int compareTo(Object o) {
+        return 0;
+    }
 }
 

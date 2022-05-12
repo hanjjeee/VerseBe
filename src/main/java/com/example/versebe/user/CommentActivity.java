@@ -27,6 +27,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CommentActivity extends AppCompatActivity {
 
@@ -95,7 +97,7 @@ public class CommentActivity extends AppCompatActivity {
                 try {
 
                     System.out.println("in onResponse");
-                    System.out.println("hanjiyoon " + response);
+                    System.out.println("hanjiyoon " + response+response.length());
 
 
                     for(int i = 0; i < response.length(); i++){
@@ -133,7 +135,11 @@ public class CommentActivity extends AppCompatActivity {
 
         System.out.println("response listener 후-"+article_num+"번글");
 
-        CommentRequest commentRequest = new CommentRequest( article_num+"", responseListener );
+        String URL = "http://hanjiyoon.dothome.co.kr/comments.php";
+        Map mMap=new HashMap();
+        mMap.put("ARTICLE_NUM", article_num+"");
+        CommentRequest commentRequest =
+                new CommentRequest(URL, responseListener,null, mMap );
         RequestQueue queue = Volley.newRequestQueue( CommentActivity.this );
         queue.add( commentRequest );
 
