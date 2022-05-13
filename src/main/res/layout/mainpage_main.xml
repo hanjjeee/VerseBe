@@ -30,9 +30,9 @@
                 app:icon="@android:drawable/ic_search_category_default"
                 app:iconTint="@color/black" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/mainpage_image_view"
-                android:layout_width="match_parent"
+                android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:paddingTop="10dp"
                 app:srcCompat="@drawable/profile"

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,6 +34,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.versebe.R;
 import com.example.versebe.user.ChoiceLayout;
 import com.example.versebe.user.FeedItem;
@@ -57,6 +59,7 @@ public class Fragment0 extends Fragment {
     private Intent intent;
 
     public View view;
+    private ImageView profile_view;
 
     private TextView mainpage_id;
 
@@ -70,7 +73,8 @@ public class Fragment0 extends Fragment {
     private Button search_button;
     private Button add_button;
 
-    //포스터 생성 연결 make 버튼
+    private String profile_image_path;
+    private String cur_user_id;
 
 
 
@@ -88,11 +92,18 @@ public class Fragment0 extends Fragment {
 
         view = inflater.inflate(mainpage_main, container, false);
 
+        cur_user_id = intent.getExtras().getString("cur_user_id");
+
+        profile_view = view.findViewById(R.id.mainpage_image_view);
         mainpage_id = view.findViewById(R.id.mainpage_name);
-        mainpage_id.setText(intent.getExtras().getString("cur_user_id"));
+        mainpage_id.setText(cur_user_id);
+
+        profile_image_path = "http://hanjiyoon.dothome.co.kr/profile/"+cur_user_id+".jpg";
 
         search_button = view.findViewById(R.id.search_button);
         add_button = view.findViewById(R.id.mainpage_add_button);
+
+        Glide.with(this).load(profile_image_path).into(profile_view);
 
 
         search_button.setOnClickListener( new View.OnClickListener() {
