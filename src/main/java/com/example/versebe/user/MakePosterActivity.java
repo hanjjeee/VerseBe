@@ -29,7 +29,6 @@ public class MakePosterActivity extends AppCompatActivity {
     private Intent intent;
     private String cur_user_id;
     private String type;
-    private int layout_num;
     private String thumb_image;
     private String user_id;
     private String update_date;
@@ -57,14 +56,13 @@ public class MakePosterActivity extends AppCompatActivity {
         cur_user_id = intent.getExtras().getString("cur_user_id");
 
         type = intent.getExtras().getString("TYPE");
-        layout_num = intent.getExtras().getInt("LAYOUT_NUM");;
-        thumb_image= intent.getExtras().getString("THUMBNAIL");;
-        user_id = intent.getExtras().getString("USER_ID");;
-        update_date= intent.getExtras().getString("UPDATE_DATE");;
-        last_date = intent.getExtras().getString("LAST_DATE");;
-        article_num = intent.getExtras().getInt("ARTICLE_NUM");;
-        hash_tag = intent.getExtras().getString("HASH_TAG");;
-        layout_image = intent.getExtras().getString("LAYOUT_IMAGE");;
+        thumb_image= intent.getExtras().getString("THUMBNAIL");
+        user_id = intent.getExtras().getString("USER_ID");
+        update_date= intent.getExtras().getString("UPDATE_DATE");
+        last_date = intent.getExtras().getString("LAST_DATE");
+        article_num = intent.getExtras().getInt("ARTICLE_NUM");
+        hash_tag = intent.getExtras().getString("HASH_TAG");
+        layout_image = intent.getExtras().getString("LAYOUT_IMAGE");
         title = intent.getExtras().getString("TITLE");
 
 
@@ -81,7 +79,7 @@ public class MakePosterActivity extends AppCompatActivity {
 
         store_name = store_name_view.getText().toString();
 
-        Sub n_layout = new Sub(getApplicationContext(), 1);
+        Sub n_layout = new Sub(getApplicationContext(), article_num);
         LinearLayout con = (LinearLayout)findViewById(R.id.poster_view_l);
         con.addView(n_layout);
 
@@ -103,6 +101,7 @@ public class MakePosterActivity extends AppCompatActivity {
 
 
                 store_name = store_name_view.getText().toString();
+
                 //포스터 생성화면으로 넘어간 후 크롤링 시작 하기
                 //매개변수 param 은 각 flag 모두 넘기기
                 Intent make_intent = new Intent(MakePosterActivity.this, MakePosterActivity2.class);
@@ -116,7 +115,6 @@ public class MakePosterActivity extends AppCompatActivity {
 
 
                 make_intent.putExtra("TYPE", type);
-                make_intent.putExtra("ARTICLE_NUM", article_num);
                 make_intent.putExtra("THUMBNAIL", thumb_image);
                 make_intent.putExtra("USER_ID", user_id);
                 make_intent.putExtra("UPDATE_DATE", update_date);

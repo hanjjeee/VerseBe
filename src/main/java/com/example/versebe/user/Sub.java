@@ -28,6 +28,7 @@ public class Sub extends ScrollView {
     }
 
     public Sub(Context context, int num) {
+
         super(context);
 
         if(num==1)
@@ -53,7 +54,7 @@ public class Sub extends ScrollView {
 
     private void init2(Context context){
         LayoutInflater inflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.layout_basic,this,true);
+        inflater.inflate(R.layout.layout_colorful,this,true);
     }
 
     private void init3(Context context){

@@ -149,7 +149,7 @@ public class ChoiceLayout extends AppCompatActivity {
 
                 LayoutItem item = adapter.getItem(position);
 
-                Toast.makeText(getApplicationContext(), "아이템 선택 " + item.getUser_id(), Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "아이템 선택 " + item.getArticle_num(), Toast.LENGTH_LONG).show();
 
                 Intent make_intent = new Intent(getApplicationContext(), MakePosterActivity.class);
 
@@ -161,7 +161,6 @@ public class ChoiceLayout extends AppCompatActivity {
                 make_intent.putExtra("USER_ID", item.getUser_id());
                 make_intent.putExtra("UPDATE_DATE", item.getUpdate_date());
                 make_intent.putExtra("LAST_DATE", item.getLast_date());
-                make_intent.putExtra("ARTICLE_NUM", item.getArticle_num());
                 make_intent.putExtra("HASH_TAG", item.getHash_tag());
                 make_intent.putExtra("LAYOUT_IMAGE", item.getPoster_image());
                 make_intent.putExtra("TITLE", item.getTitle());

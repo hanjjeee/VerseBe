@@ -65,7 +65,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private String cur_user_id;
 
     private String type;
-    private int layout_num;
     private String thumb_image;
     private String user_id;
     private String update_date;
@@ -118,7 +117,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
         store_name = intent.getExtras().getString("store_name");
 
         type = intent.getExtras().getString("TYPE");
-        layout_num = intent.getExtras().getInt("LAYOUT_NUM");;
         thumb_image= intent.getExtras().getString("THUMBNAIL");;
         user_id = intent.getExtras().getString("USER_ID");;
         update_date= intent.getExtras().getString("UPDATE_DATE");;
@@ -157,43 +155,32 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
 
-        //포스터 레이아웃 지정하기
-        if(article_num==1){
 
-            System.out.println("article 1");
+        //버튼 클릭시 해당 xml 가져오기
+        Sub n_layout = new Sub(getApplicationContext(), article_num);
+        LinearLayout con = (LinearLayout)findViewById(R.id.poster_view_l);
+        con.addView(n_layout);
 
-            //버튼 클릭시 해당 xml 가져오기
-            Sub n_layout = new Sub(getApplicationContext(), 1);
-            LinearLayout con = (LinearLayout)findViewById(R.id.poster_view_l);
-            con.addView(n_layout);
+        //드래그 앤 드롭 구역
+        findViewById(R.id.imageView_1).setOnDragListener(  new DragListener());
+        findViewById(R.id.imageView_2).setOnDragListener(  new DragListener());
+        findViewById(R.id.imageView_3).setOnDragListener(  new DragListener());
+        findViewById(R.id.imageView_4).setOnDragListener(  new DragListener());
+        findViewById(R.id.imageView_5).setOnDragListener(  new DragListener());
+        findViewById(R.id.imageView_6).setOnDragListener(  new DragListener());
+        findViewById(R.id.imageView_7).setOnDragListener(  new DragListener());
 
+        findViewById(R.id.image_recyclerview).setOnDragListener(  new DragListener());
 
-            //드래그 앤 드롭 구역
-            findViewById(R.id.imageView_1).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_2).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_3).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_4).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_5).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_6).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_7).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_8).setOnDragListener(  new DragListener());
-            findViewById(R.id.imageView_9).setOnDragListener(  new DragListener());
-            findViewById(R.id.image_recyclerview).setOnDragListener(  new DragListener());
-
-            //텍스트 구역
-            page_name = findViewById(R.id.page_name);
-            page_storename = findViewById(R.id.page_storename);
-            page_tel = findViewById(R.id.page_tel);
-            page_category = findViewById(R.id.page_category);
-            page_location = findViewById(R.id.page_location);
+        //텍스트 구역
+        page_name = findViewById(R.id.page_name);
+        page_storename = findViewById(R.id.page_storename);
+        page_tel = findViewById(R.id.page_tel);
+        page_category = findViewById(R.id.page_category);
+        page_location = findViewById(R.id.page_location);
 
 
 
-
-
-
-        }
-        //포스터 레이아웃 지정
 
 
 
@@ -934,10 +921,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
     class DragListener implements View.OnDragListener {
-        Drawable normalShape = getResources().getDrawable(
-                R.color.light_gray2);
-        Drawable targetShape = getResources().getDrawable(
-                R.color.black);
+        //Drawable normalShape = getResources().getDrawable(
+        //        R.color.light_gray2);
+       // Drawable targetShape = getResources().getDrawable(
+       //         R.color.black);
 
         @SuppressLint("NewApi")
         @RequiresApi(api = Build.VERSION_CODES.M)
@@ -957,7 +944,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                     // 이미지가 들어왔다는 것을 알려주기 위해 배경이미지 변경
                     if(v.getId() != findViewById(R.id.image_recyclerview).getId())
-                        v.setBackground(targetShape);
+
                     break;
 
                 // 드래그한 이미지가 영역을 빠져 나갈때
@@ -965,7 +952,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
                     Log.d("DragClickListener", "ACTION_DRAG_EXITED");
 
                     if(v.getId() != findViewById(R.id.image_recyclerview).getId())
-                        v.setBackground(normalShape);
+
 
                     break;
 
@@ -980,9 +967,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
                             v == findViewById(R.id.imageView_4)||
                             v == findViewById(R.id.imageView_5)||
                             v == findViewById(R.id.imageView_6)||
-                            v == findViewById(R.id.imageView_7)||
-                            v == findViewById(R.id.imageView_8)||
-                            v == findViewById(R.id.imageView_9)
+                            v == findViewById(R.id.imageView_7)
 
                     ){
 
@@ -1008,7 +993,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         View view = (View) event.getLocalState();
                         ViewGroup viewgroup = (ViewGroup) view
                                 .getParent();
-                        viewgroup.removeView(view);
+                        //viewgroup.removeView(view);
+
+
+
 
                     }else {
                         View view = (View) event.getLocalState();
@@ -1017,6 +1005,11 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         Toast.makeText(context,
                                 "이미지를 다른 지역에 드랍할수 없습니다.",
                                 Toast.LENGTH_LONG).show();
+
+                        //되돌리기
+
+                        recyclerView.addView(view);
+
                         break;
                     }
                     break;
@@ -1024,8 +1017,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
                 case DragEvent.ACTION_DRAG_ENDED:
                     Log.d("DragClickListener", "ACTION_DRAG_ENDED");
 
-                    if(!(v.getId() == findViewById(R.id.image_recyclerview).getId()))
-                        v.setBackground(normalShape); // go back to normal shape
+                   // if(!(v.getId() == findViewById(R.id.image_recyclerview).getId()))
+                       // v.setBackground(normalShape); // go back to normal shape
 
                 default:
                     break;

@@ -79,7 +79,9 @@
                 android:layout_marginBottom="40dp"
                 android:background="@color/light_gray2"
 
-                android:scaleType="fitXY">
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                >
 
                 <ImageView
                     android:id="@+id/camera1"
@@ -148,7 +150,9 @@
                     android:layout_width="250dp"
                     android:layout_height="200dp"
                     android:layout_weight="1"
-                    android:background="@color/light_gray2">
+                    android:background="@color/light_gray2"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY">
 
                     <ImageView
                         android:id="@+id/camera2"
@@ -173,7 +177,9 @@
                     android:layout_height="200dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginBottom="40dp"
-                    android:background="@color/light_gray2">
+                    android:background="@color/light_gray2"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitXY">
 
                     <ImageView
                         android:id="@+id/camera3"
@@ -244,7 +250,9 @@
                 android:layout_width="410dp"
                 android:layout_height="200dp"
                 android:layout_marginBottom="40dp"
-                android:background="@color/light_gray2">
+                android:background="@color/light_gray2"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY">
 
                 <ImageView
                     android:id="@+id/camera4"
@@ -259,7 +267,9 @@
                 android:layout_width="410dp"
                 android:layout_height="200dp"
                 android:layout_marginBottom="40dp"
-                android:background="@color/light_gray2">
+                android:background="@color/light_gray2"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY">
 
                 <ImageView
                     android:id="@+id/camera5"
@@ -274,7 +284,9 @@
                 android:layout_width="410dp"
                 android:layout_height="200dp"
                 android:layout_marginBottom="40dp"
-                android:background="@color/light_gray2">
+                android:background="@color/light_gray2"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY">
 
                 <ImageView
                     android:id="@+id/camera6"
@@ -287,7 +299,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="200dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -334,97 +346,12 @@
                     android:id="@+id/imageView_7"
                     android:layout_width="250dp"
                     android:layout_height="200dp"
-                    android:background="@color/light_gray2">
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
 
                     <ImageView
                         android:id="@+id/camera7"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_camera" />
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/imageView_8"
-                android:layout_width="410dp"
-                android:layout_height="200dp"
-                android:layout_marginBottom="40dp"
-                android:background="@color/light_gray2">
-
-                <ImageView
-                    android:id="@+id/camera8"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@android:drawable/ic_menu_camera" />
-            </FrameLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="200dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:orientation="vertical"
-                    android:padding="5dp">
-
-                    <TextView
-                        android:id="@+id/textView11"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="ALIVE"
-                        android:textColor="@color/white"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textView9"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:text="CARPE DIEM"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textView8"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp"
-                        android:shadowColor="@color/white"
-                        android:text="REMEMBER YOU'RE ALIVE"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/textView7"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="IN THIS MOMENT"
-                        android:textColor="@color/white"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <FrameLayout
-                    android:id="@+id/imageView_9"
-                    android:layout_width="250dp"
-                    android:layout_height="200dp"
-                    android:layout_weight="1"
-                    android:background="@color/light_gray2">
-
-                    <ImageView
-                        android:id="@+id/camera9"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_gravity="center"
