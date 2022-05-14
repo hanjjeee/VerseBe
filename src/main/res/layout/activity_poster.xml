@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            app:srcCompat="@drawable/comment_icon32" />
+            android:src="@android:drawable/stat_notify_chat" />
 
         <TextView
             android:id="@+id/comment_count"
@@ -99,6 +99,6 @@
         android:foregroundGravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/heart" />
+        android:src="@android:drawable/ic_menu_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

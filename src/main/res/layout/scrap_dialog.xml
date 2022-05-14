@@ -124,13 +124,5 @@
             android:text="확인"
             app:backgroundTint="@color/teal_700" />
 
-        <Button
-            android:id="@+id/scrap_album_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="휴대폰에서 가져오기"
-            app:backgroundTint="@color/black"
-            app:iconTint="@color/light_gray2" />
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

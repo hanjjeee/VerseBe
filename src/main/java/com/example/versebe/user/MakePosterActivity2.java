@@ -5,10 +5,13 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
@@ -19,6 +22,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -43,6 +50,7 @@ import org.jsoup.select.Elements;
 
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -182,6 +190,57 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
 
+        //갤러리 연동
+
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == RESULT_OK) {
+                            Intent intent = result.getData();
+                            //Uri uri = intent.getData();
+                            try{
+                                InputStream in = getContentResolver().openInputStream(intent.getData());
+
+                                Bitmap img = BitmapFactory.decodeStream(in);
+                                in.close();
+
+                                //가져온 사진 처리
+                                ImageView tmp = findViewById(R.id.camera1);
+                                tmp.setImageBitmap(img);
+
+
+                            }catch(Exception e)
+                            {
+
+                            }
+                        }
+                    }
+                }
+        );
+
+        //갤러리에서 가져오기 버튼
+
+        findViewById(R.id.imageView_1).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //갤러리 열리는지 테스트
+                //갤러리 호출
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent1.setAction(Intent.ACTION_PICK);
+                activityResultLauncher.launch(intent1);
+
+
+            }
+        });
+
+
+
+
 
 
 
@@ -289,7 +348,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         }
 
-                        img_array=img_array.stream().distinct().collect(Collectors.toList());
+                        //img_array=img_array.stream().distinct().collect(Collectors.toList());
 
                         for(int i=0;i<img_array.size();i++){
                             System.out.println(img_array.get(i));
@@ -526,7 +585,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         }
 
-                        img_array=img_array.stream().distinct().collect(Collectors.toList());
+                        //img_array=img_array.stream().distinct().collect(Collectors.toList());
 
                         for(int i=0;i<img_array.size();i++){
                             System.out.println(img_array.get(i));
@@ -753,7 +812,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         }
 
-                        img_array=img_array.stream().distinct().collect(Collectors.toList());
+                        //img_array=img_array.stream().distinct().collect(Collectors.toList());
 
                         for(int i=0;i<img_array.size();i++){
                             System.out.println(img_array.get(i));

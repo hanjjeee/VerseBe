@@ -1,7 +1,11 @@
 package com.example.versebe.user;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.IdRes;
 import android.view.View;
 import android.widget.Button;
@@ -11,12 +15,21 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.versebe.R;
+import com.example.versebe.main_page.MainActivity;
+
+import java.io.InputStream;
 
 //scrap
 public class MakePosterActivity extends AppCompatActivity {
+
+    private static final int REQUEST_CODE = 0;
 
     private Button scrap_button;
     private Button album_button;
@@ -72,7 +85,7 @@ public class MakePosterActivity extends AppCompatActivity {
         daumButton = findViewById(R.id.scrap_daum_radioButton);
 
         scrap_button = findViewById(R.id.scrap_start_button);
-        album_button = findViewById(R.id.scrap_album_button);
+
         store_name_view = findViewById(R.id.scrap_storename);
 
         radioGroup.setOnCheckedChangeListener(radioGroupButtonChangeListener);
@@ -82,6 +95,11 @@ public class MakePosterActivity extends AppCompatActivity {
         Sub n_layout = new Sub(getApplicationContext(), article_num);
         LinearLayout con = (LinearLayout)findViewById(R.id.poster_view_l);
         con.addView(n_layout);
+
+
+
+
+
 
         scrap_button.setOnClickListener(new View.OnClickListener(){
 
@@ -133,7 +151,21 @@ public class MakePosterActivity extends AppCompatActivity {
         });
 
 
+
+
+
+
+
+
+
     }
+
+
+
+
+
+
+
 
     //라디오 버튼 클릭 리스너
     RadioButton.OnClickListener radioButtonClickListener = new RadioButton.OnClickListener(){

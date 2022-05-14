@@ -24,7 +24,7 @@
                 android:layout_height="100dp"
 
                 android:paddingTop="10dp"
-                app:srcCompat="@drawable/profile" />
+                 />
 
             <TextView
                 android:id="@+id/followpage_id"

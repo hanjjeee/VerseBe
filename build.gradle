@@ -53,6 +53,9 @@ dependencies {
     //크롤링
     implementation 'org.jsoup:jsoup:1.13.1'
 
+    //갤러리
+    implementation 'androidx.activity:activity-ktx:1.2.0-alpha05'
+
 
 
 
