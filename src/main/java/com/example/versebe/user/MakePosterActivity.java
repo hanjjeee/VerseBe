@@ -177,19 +177,19 @@ public class MakePosterActivity extends AppCompatActivity {
     RadioGroup.OnCheckedChangeListener radioGroupButtonChangeListener = new RadioGroup.OnCheckedChangeListener() {
         @Override public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
             if(i == R.id.scrap_naver_radioButton){
-                Toast.makeText(MakePosterActivity.this, "확인을 누르시면 네이버에서 사진을 가져옵니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MakePosterActivity.this, "확인을 누르시면 네이버에서 정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
 
                 naver_flag = true;
                 daum_flag = false; google_flag = false;
 
             } else if(i == R.id.scrap_google_radioButton){
-                Toast.makeText(MakePosterActivity.this, "확인을 누르시면 구글에서 사진을 가져옵니다", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MakePosterActivity.this, "확인을 누르시면 구글에서 정보를 가져옵니다", Toast.LENGTH_SHORT).show();
 
                 google_flag=true;
                 naver_flag=false; daum_flag=false;
             }
             else if(i == R.id.scrap_daum_radioButton){
-                Toast.makeText(MakePosterActivity.this, "확인을 누르시면 다음에서 사진을 가져옵니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MakePosterActivity.this, "확인을 누르시면 다음에서 정보를 가져옵니다.", Toast.LENGTH_SHORT).show();
 
                 daum_flag=true;
                 naver_flag=false; google_flag=false;

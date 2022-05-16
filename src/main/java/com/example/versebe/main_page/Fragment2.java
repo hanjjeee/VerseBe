@@ -25,6 +25,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
+import com.bumptech.glide.Glide;
 import com.example.versebe.R;
 import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FollowItem;
@@ -50,6 +51,8 @@ public class Fragment2 extends Fragment {
 
     private EditText keyword;
     private TextView mainpage_name;
+    private ImageView my_image;
+    private String my_image_path;
 
     private ArrayList<FollowItem> items;
     private FollowItemAdapter adapter;
@@ -79,7 +82,10 @@ public class Fragment2 extends Fragment {
 
         keyword = view.findViewById(R.id.followpage_search);
 
-
+        my_image = view.findViewById(R.id.followpage_image_view);
+        my_image_path="http://hanjiyoon.dothome.co.kr/profile/"+cur_user_id+".jpg";
+        my_image = view.findViewById(R.id.followpage_image_view);
+        Glide.with(this).load(my_image_path).into(my_image);
 
 
         items = new ArrayList<FollowItem>();

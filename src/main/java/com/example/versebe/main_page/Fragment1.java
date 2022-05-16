@@ -8,11 +8,14 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.example.versebe.R;
 import com.example.versebe.user.ModifyActivity_email;
 import com.example.versebe.user.ModifyActivity_name;
@@ -24,7 +27,11 @@ public class Fragment1 extends Fragment {
     private Intent intent;
     private TextView my_name, my_email;
     private TextView cur_name, cur_email, cur_phone, cur_password;
-    private ImageButton cur_name_edit_button, cur_email_edit_button,cur_phone_edit_button,cur_password_edit_button;
+    private ImageView my_image;
+    private Button cur_name_edit_button, cur_email_edit_button,cur_phone_edit_button,cur_password_edit_button;
+
+    private String my_image_path;
+    private String cur_user_id;
 
     public Fragment1(Intent intent) {
 
@@ -35,12 +42,15 @@ public class Fragment1 extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.activity_mypage, container, false);
+
+        cur_user_id = intent.getExtras().getString("cur_user_id");
 
         my_name = view.findViewById(R.id.my_name);
         cur_name = view.findViewById(R.id.cur_name);
-        my_name.setText(intent.getExtras().getString("cur_user_id"));
-        cur_name.setText(intent.getExtras().getString("cur_user_id"));
+        my_name.setText(cur_user_id);
+        cur_name.setText(cur_user_id);
 
         my_email = view.findViewById(R.id.my_email);
         cur_email = view.findViewById(R.id.cur_email);
@@ -55,6 +65,10 @@ public class Fragment1 extends Fragment {
         cur_email_edit_button = view.findViewById(R.id.cur_email_edit_button);
         cur_phone_edit_button = view.findViewById(R.id.cur_phone_edit_button);
         cur_password_edit_button = view.findViewById(R.id.cur_password_edit_button);
+
+        my_image_path="http://hanjiyoon.dothome.co.kr/profile/"+cur_user_id+".jpg";
+        my_image = view.findViewById(R.id.my_image);
+        Glide.with(this).load(my_image_path).into(my_image);
 
         cur_name_edit_button.setOnClickListener( new View.OnClickListener() {
 

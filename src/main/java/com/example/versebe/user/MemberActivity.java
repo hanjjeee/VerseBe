@@ -81,8 +81,8 @@ public class MemberActivity extends AppCompatActivity {
 
 
         //임시
-        image_path = "cat.jpg";
-        image_path = "http://hanjiyoon.dothome.co.kr/app_image/"+image_path;
+
+        image_path = "http://hanjiyoon.dothome.co.kr/app_image/"+userId+".jpg";
 
         memberId = findViewById(R.id.member_id);
         memberImage = findViewById(R.id.member_image_view);
