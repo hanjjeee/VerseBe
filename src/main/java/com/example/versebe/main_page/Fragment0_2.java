@@ -60,6 +60,7 @@ public class Fragment0_2 extends Fragment {
     private String layout_image;
     private String title;
     private String content;
+    private int scrap;
 
 
 
@@ -130,6 +131,7 @@ public class Fragment0_2 extends Fragment {
                         title = jsonObject.getString("TITLE");
                         layout_image = jsonObject.getString("LAYOUT_IMAGE");
                         content = jsonObject.getString("CONTENT");
+                        scrap = jsonObject.getInt("SCRAP");
 
 
 
@@ -139,7 +141,7 @@ public class Fragment0_2 extends Fragment {
                         layout_image = "http://hanjiyoon.dothome.co.kr/layouts/" + article_num;
 
                         items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
-                                layout_image,hash_tag,article_num,title,content));
+                                layout_image,hash_tag,article_num,title,content, scrap));
 
                         adapter.notifyItemInserted(0);
                     }

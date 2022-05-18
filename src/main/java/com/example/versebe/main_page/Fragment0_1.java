@@ -60,6 +60,7 @@ public class Fragment0_1 extends Fragment {
     private String poster_image;
     private String title;
     private String content;
+    private int scrap;
 
 
 
@@ -94,7 +95,6 @@ public class Fragment0_1 extends Fragment {
         //서버주소
 
         //test 용
-        //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
         String url = "http://hanjiyoon.dothome.co.kr/posters.php";
 
         //결과를 JsonArray 로 받음
@@ -131,6 +131,7 @@ public class Fragment0_1 extends Fragment {
                         title = jsonObject.getString("TITLE");
                         poster_image = jsonObject.getString("POSTER_IMAGE");
                         content = jsonObject.getString("CONTENT");
+                        scrap = jsonObject.getInt("SCRAP");
 
 
                         //test
@@ -140,7 +141,7 @@ public class Fragment0_1 extends Fragment {
                         String poster_image_path = "http://hanjiyoon.dothome.co.kr/posters/" + poster_image;
 
                         items.add(0, new FeedItem(type,thumb_image_path,user_id,update_date,last_date,
-                                poster_image_path,hash_tag,article_num,title, content));
+                                poster_image_path,hash_tag,article_num,title, content, scrap));
 
                         adapter.notifyItemInserted(0);
                     }
@@ -187,6 +188,7 @@ public class Fragment0_1 extends Fragment {
                 feed_intent.putExtra("POSTER_IMAGE", item.getPoster_image());
                 feed_intent.putExtra("TITLE", item.getTitle());
                 feed_intent.putExtra("CONTENT", item.getContent());
+                feed_intent.putExtra("SCRAP", item.getScrap());
 
                 startActivity(feed_intent);
             }

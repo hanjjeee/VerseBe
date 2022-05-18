@@ -35,6 +35,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.versebe.R;
 import com.example.versebe.user.ChoiceLayout;
 import com.example.versebe.user.FeedItem;
@@ -103,7 +104,14 @@ public class Fragment0 extends Fragment {
         search_button = view.findViewById(R.id.search_button);
         add_button = view.findViewById(R.id.mainpage_add_button);
 
-        Glide.with(this).load(profile_image_path).into(profile_view);
+        //캐시 o
+        //Glide.with(this).load(profile_image_path).into(profile_view);
+
+        //캐시 x
+        Glide.with(this).load(profile_image_path).skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(profile_view);
+
+
 
 
         search_button.setOnClickListener( new View.OnClickListener() {

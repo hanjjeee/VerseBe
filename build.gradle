@@ -57,6 +57,10 @@ dependencies {
     implementation 'androidx.activity:activity-ktx:1.2.0-alpha05'
 
 
+    //이미지 서버 전송
+    implementation 'com.karumi:dexter:6.1.0'
+
+
 
 
 }

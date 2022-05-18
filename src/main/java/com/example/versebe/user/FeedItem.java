@@ -14,6 +14,7 @@ public class FeedItem {
     private String poster_image;
     private String title;
     private String content;
+    private int scrap;
 
 
 
@@ -21,7 +22,7 @@ public class FeedItem {
 
 
     public FeedItem(String type,String thumb_image, String user_id, String update_date,String last_date,
-                    String poster_image,String hash_tag,int article_num, String title, String content) {
+                    String poster_image,String hash_tag,int article_num, String title, String content, int scrap) {
 
         this.type=type;
 
@@ -34,6 +35,7 @@ public class FeedItem {
         this.article_num = article_num;
         this.title = title;
         this.content = content;
+        this.scrap = scrap;
 
     }
 
@@ -96,4 +98,7 @@ public class FeedItem {
     public String getContent() {
         return this.content;
     }
+
+    public void setScrap(int scrap) {this.scrap=scrap;}
+    public int getScrap(){return this.scrap;}
 }

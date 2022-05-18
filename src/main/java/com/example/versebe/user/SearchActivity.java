@@ -48,6 +48,7 @@ public class SearchActivity extends AppCompatActivity {
     private String title;
     private String poster_image;
     private String content;
+    private int scrap;
 
 
     @Override
@@ -113,6 +114,8 @@ public class SearchActivity extends AppCompatActivity {
                         title = jsonObject.getString("TITLE");
                         poster_image = jsonObject.getString("POSTER_IMAGE");
                         content = jsonObject.getString("CONTENT");
+                        scrap =jsonObject.getInt("SCRAP");
+
 
 
 
@@ -120,7 +123,7 @@ public class SearchActivity extends AppCompatActivity {
                         thumb_image = "http://hanjiyoon.dothome.co.kr/app_image/" + thumb_image;
 
                         items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
-                                poster_image,hash_tag,article_num,title,content));
+                                poster_image,hash_tag,article_num,title,content,scrap));
                         adapter.notifyItemInserted(0);
                     }
                 } catch (JSONException e) {

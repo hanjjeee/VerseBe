@@ -191,7 +191,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
         //갤러리 연동
-
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {

@@ -26,6 +26,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.versebe.R;
 import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FollowItem;
@@ -85,7 +86,10 @@ public class Fragment2 extends Fragment {
         my_image = view.findViewById(R.id.followpage_image_view);
         my_image_path="http://hanjiyoon.dothome.co.kr/profile/"+cur_user_id+".jpg";
         my_image = view.findViewById(R.id.followpage_image_view);
-        Glide.with(this).load(my_image_path).into(my_image);
+
+        //캐시x
+        Glide.with(this).load(my_image_path).skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(my_image);
 
 
         items = new ArrayList<FollowItem>();
@@ -102,7 +106,8 @@ public class Fragment2 extends Fragment {
 
 
         //서버주소
-        String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+        //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
+        String url = "http://hanjiyoon.dothome.co.kr/user_list.php";
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
             //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않음. 그래서 POST 방식 사용
@@ -124,15 +129,15 @@ public class Fragment2 extends Fragment {
 
                         JSONObject jsonObject = response.getJSONObject(i);
 
-                        title = jsonObject.getString("title");
+                        title = jsonObject.getString("userId");
 
-                        email = jsonObject.getString("detail");
+                        email = jsonObject.getString("userEmail");
 
                         image_path = jsonObject.getString("image_path");
 
 
                         //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
-                        image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
+                        image_path = "http://hanjiyoon.dothome.co.kr/profile/" + image_path;
 
                         items.add(0, new FollowItem(image_path, title, email)); // 첫 번째 매개변수는 몇번째에 추가 될지, 제일 위에 오도록
                         adapter.notifyItemInserted(0);

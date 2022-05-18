@@ -41,11 +41,13 @@ public class PosterActivity extends AppCompatActivity {
     private String poster_image;
     private String title;
     private String content;
+    private int scrap;
 
     private String cur_user_id;
 
     private ImageView poster_image_view;
     private TextView poster_user_id;
+    private TextView poster_scrap_count;
     private ImageButton like_button;
     private ImageButton comment_button;
 
@@ -69,9 +71,10 @@ public class PosterActivity extends AppCompatActivity {
         last_date = intent.getExtras().getString("LAST_DATE");;
         article_num = intent.getExtras().getInt("ARTICLE_NUM");;
         hash_tag = intent.getExtras().getString("HASH_TAG");;
-        poster_image = intent.getExtras().getString("POSTER_IMAGE");;
+        poster_image = intent.getExtras().getString("POSTER_IMAGE");
         title = intent.getExtras().getString("TITLE");
         content = intent.getExtras().getString("CONTENT");
+        scrap = intent.getExtras().getInt("SCRAP");
 
 
 
@@ -80,6 +83,7 @@ public class PosterActivity extends AppCompatActivity {
 
         poster_image_view = findViewById(R.id.poster_image);
         poster_user_id = findViewById(R.id.posterpage_user_id);
+        poster_scrap_count = findViewById(R.id.like_count);
 
         like_button = findViewById(R.id.posterpage_like_button);
         comment_button = findViewById(R.id.comment_button);
@@ -87,6 +91,8 @@ public class PosterActivity extends AppCompatActivity {
 
         Glide.with(this).load(poster_image).into(poster_image_view);
         poster_user_id.setText(user_id);
+
+        poster_scrap_count.setText(scrap+"");
 
 
 
@@ -177,6 +183,90 @@ public class PosterActivity extends AppCompatActivity {
                 queue.add(likeRequest);
 
 
+
+
+                Response.Listener<String> responseListener2 = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            System.out.println("hanjiyoon"+ response);
+                            JSONObject jsonObject = new JSONObject(response);
+
+                            boolean success = jsonObject.getBoolean("success");
+
+                            if (success) {
+
+                                //서버주소
+                                String url = "http://hanjiyoon.dothome.co.kr/like2.php";
+
+                                //결과를 JsonArray 로 받음
+                                //JsonArrayRequest를 이용
+                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+
+                                    //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+
+                                    @Override
+                                    public void onResponse(JSONArray response) {
+
+                                        //db 연결 확인용
+                                        //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+
+
+                                        try {
+
+                                            for (int i = 0; i < response.length(); i++) {
+
+                                                JSONObject jsonObject = response.getJSONObject(i);
+
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                                //실제 요청 작업을 수행해주는 요청큐 객체 생성
+                                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                                //요청큐에 요청 객체 생성
+                                requestQueue.add(jsonArrayRequest);
+
+
+
+                                Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
+                                return;
+
+                            } else {
+
+                                Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                };
+
+                // 서버로 Volley를 통해 연결
+                LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                RequestQueue queue2 = Volley.newRequestQueue(PosterActivity.this);
+                queue2.add(likeRequest2);
+
+
+
+
+
             }//end of onclick
 
 
@@ -203,6 +293,7 @@ public class PosterActivity extends AppCompatActivity {
                 intent2.putExtra("POSTER_IMAGE", poster_image);
                 intent2.putExtra("TITLE", title);
                 intent2.putExtra("CONTENT", content);
+                intent2.putExtra("SCRAP",scrap);
 
 
 
