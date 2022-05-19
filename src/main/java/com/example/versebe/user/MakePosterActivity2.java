@@ -10,15 +10,20 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,11 +37,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.versebe.R;
 
@@ -49,12 +56,19 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
@@ -66,6 +80,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private ScrapItemAdapter adapter;
     private ArrayList<ScrapItem> items;
     private LinearLayoutManager layoutManager;
+
+    private Button poster_save_button;
 
     private int item_num;
     private String tmp;
@@ -86,6 +102,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private boolean google_flag;
     private boolean daum_flag;
     private String store_name;
+
+    private static final String url_upload = "http://hanjiyoon.dothome.co.kr/upload_poster.php";
+    String encodeImageString;
+    Bitmap bitmap;
 
     TextView page_storename;
     TextView page_name;
@@ -151,6 +171,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
         items = new ArrayList<>();
 
         recyclerView = (RecyclerView)findViewById(R.id.image_recyclerview);
+        poster_save_button = findViewById(R.id.poster_save_button);
 
         adapter = new ScrapItemAdapter(this, items);
 
@@ -176,7 +197,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
         findViewById(R.id.imageView_4).setOnDragListener(  new DragListener());
         findViewById(R.id.imageView_5).setOnDragListener(  new DragListener());
         findViewById(R.id.imageView_6).setOnDragListener(  new DragListener());
-        findViewById(R.id.imageView_7).setOnDragListener(  new DragListener());
+
+
 
         findViewById(R.id.image_recyclerview).setOnDragListener(  new DragListener());
 
@@ -352,14 +374,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         for(int i=0;i<img_array.size();i++){
                             System.out.println(img_array.get(i));
                         }
-
-
-
-
-
-
-
-
 
 
 
@@ -939,12 +953,132 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         }//구글 크롤링 끝
 
+        //포스터 저장 버튼
+        poster_save_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMddHHmmss"); //년,월,일,시간 포멧 설정
+                Date time = new Date(); //파일명 중복 방지를 위해 사용될 현재시간
+                String current_time = sdf.format(time); //String형 변수에 저장
+
+                LinearLayout capture_target_Layout = (LinearLayout)findViewById(R.id.poster_view_l); //캡쳐할 영역의 레이아웃
+                Request_Capture(capture_target_Layout,current_time + "_capture"); //지정한 Layout 영역 사진첩 저장
+
+            }
+        });
 
 
 
 
 
 
+
+
+    }
+
+    //포스터 저장
+    public void Request_Capture(View view, String title){
+        if(view==null){ //Null Point Exception ERROR 방지
+            System.out.println("::::ERROR:::: view == NULL");
+            return;
+        }
+
+        /* 캡쳐 파일 저장 */
+        view.buildDrawingCache(); //캐시 비트 맵 만들기
+        bitmap = view.getDrawingCache();
+        FileOutputStream fos;
+
+        /* 저장할 폴더 Setting */
+        File uploadFolder = Environment.getExternalStoragePublicDirectory("/DCIM/Camera/"); //저장 경로 (File Type형 변수)
+
+
+
+        if (!uploadFolder.exists()) { //만약 경로에 폴더가 없다면
+            uploadFolder.mkdir(); //폴더 생성
+        }
+
+        /* 파일 저장, 서버 전송추가하기 */
+        String Str_Path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DCIM/Camera/"; //저장 경로 (String Type 변수)
+
+        try{
+
+            //갤러리 저장
+            fos = new FileOutputStream(Str_Path+title+".png"); // 경로 + 제목 + .jpg로 FileOutputStream Setting
+            bitmap = Bitmap.createScaledBitmap(bitmap, 250, 700, true);
+            bitmap.compress(Bitmap.CompressFormat.PNG,100,fos);
+
+            //서버 업로드
+            encodeBitmapImage(bitmap);
+            uploadDataToDB();
+
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        //캡쳐 파일 미디어 스캔 (https://hongdroid.tistory.com/7)
+
+        MediaScanner ms = MediaScanner.newInstance(getApplicationContext());
+
+
+
+        try { // TODO : 미디어 스캔
+            ms.mediaScanning(Str_Path + title + ".png");
+        }catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("::::ERROR:::: "+e);
+        }
+
+    }//End Function
+
+
+    private void uploadDataToDB()
+    {
+
+        String name = cur_user_id;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url_upload, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response)
+            {
+
+                Toast.makeText(MakePosterActivity2.this, response.toString(), Toast.LENGTH_SHORT).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error)
+            {
+                Toast.makeText(MakePosterActivity2.this, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        })
+        {
+            @Override
+            public Map<String, String> getParams() throws AuthFailureError
+            {
+                Map<String, String> map = new HashMap<>();
+
+                map.put("userId", name);
+                map.put("upload", encodeImageString);
+
+                return map;
+            }
+        };
+
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        queue.add(request);
+
+    }
+
+
+
+    private void encodeBitmapImage(Bitmap bitmap)
+    {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
+        encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
 
     }
 
@@ -1024,8 +1158,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
                             v == findViewById(R.id.imageView_3)||
                             v == findViewById(R.id.imageView_4)||
                             v == findViewById(R.id.imageView_5)||
-                            v == findViewById(R.id.imageView_6)||
-                            v == findViewById(R.id.imageView_7)
+                            v == findViewById(R.id.imageView_6)
+
 
                     ){
 

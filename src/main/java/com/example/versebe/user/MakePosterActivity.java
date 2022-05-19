@@ -144,6 +144,9 @@ public class MakePosterActivity extends AppCompatActivity {
 
 
 
+
+
+
                 startActivity(make_intent);
 
 

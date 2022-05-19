@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
+    <Button
         android:id="@+id/poster_save_button"
         android:layout_width="59dp"
         android:layout_height="60dp"
+        android:text="save"
+        app:backgroundTint="@color/light_gray2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/stat_sys_download" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
         android:id="@+id/poster_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="413dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:layout_width="0dp"
+        android:layout_height="528dp"
+        tools:layout_editor_absoluteX="413dp">
 
         <LinearLayout
             android:id="@+id/poster_view_l"
@@ -27,23 +27,13 @@
             android:orientation="vertical" />
     </ScrollView>
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/image_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/poster_view">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/image_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="@color/black"
-            android:foregroundGravity="center_vertical" />
-    </LinearLayout>
+        android:layout_height="200dp"
+        android:background="@color/black"
+        android:foregroundGravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-2dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

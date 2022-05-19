@@ -141,6 +141,7 @@ public class Fragment0 extends Fragment {
 
                             //포스터 생성 인텐트로 넘어가기
                             Intent poster_intent = new Intent(getContext(), ChoiceLayout.class);
+                            poster_intent.putExtra("cur_user_id",cur_user_id);
                             startActivity(poster_intent);
 
 

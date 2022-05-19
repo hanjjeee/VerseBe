@@ -55,6 +55,7 @@ public class ChoiceLayout extends AppCompatActivity {
         setContentView(R.layout.choice_layout);
 
         intent = getIntent();
+        cur_user_id = intent.getExtras().getString("cur_user_id");
 
         //리사이클러뷰
         //그리드 리사이클러 뷰 불러오기

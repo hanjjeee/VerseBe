@@ -270,7 +270,7 @@ public class Fragment1 extends Fragment {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
-        //encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
+
         encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
     }
 
