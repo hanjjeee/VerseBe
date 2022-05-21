@@ -107,6 +107,11 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private static final String url_upload = "http://hanjiyoon.dothome.co.kr/upload_poster.php";
     String encodeImageString;
     Bitmap bitmap;
+    String insert_title;
+    String insert_content;
+    String insert_hashtag;
+
+
 
     TextView page_storename;
     TextView page_name;
@@ -410,7 +415,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
                         //UI 뷰 세팅 위한 thread
-                        runOnUiThread(new Runnable() { public void run() {
+                        runOnUiThread(new Runnable() {
+                            public void run() {
 
                             //오류 출력
                             //오류 출력
@@ -954,24 +960,55 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         }//구글 크롤링 끝
 
+
         //포스터 저장 버튼
         poster_save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                SimpleDateFormat sdf = new SimpleDateFormat( "yyyyMMddHHmmss"); //년,월,일,시간 포멧 설정
-                Date time = new Date(); //파일명 중복 방지를 위해 사용될 현재시간
-                String current_time = sdf.format(time); //String형 변수에 저장
 
-                LinearLayout capture_target_Layout = (LinearLayout)findViewById(R.id.poster_view_l); //캡쳐할 영역의 레이아웃
-                Request_Capture(capture_target_Layout,current_time + "_capture"); //지정한 Layout 영역 사진첩 저장
 
-                //메인 인텐트로 이동
-                Toast.makeText(getApplicationContext(), String.format("저장이 완료되었습니다."), Toast.LENGTH_SHORT).show();
+                CustomDialog content_dialog = new CustomDialog(MakePosterActivity2.this);
+                content_dialog.setCancelable(false);
+                content_dialog.show();
 
-                Intent intent2 = new Intent(MakePosterActivity2.this, MainActivity.class);
-                intent2.putExtra("cur_user_id",cur_user_id);
-                startActivity(intent2);
+
+
+
+                content_dialog.OK.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        insert_title = content_dialog.title.getText().toString();
+                        insert_content = content_dialog.content.getText().toString();
+                        insert_hashtag = content_dialog.hashtag.getText().toString();
+
+                        if(insert_title.isEmpty()||insert_hashtag.isEmpty()||insert_content.isEmpty()){
+                            Toast.makeText(getApplicationContext(), String.format("모든 칸을 입력해 주세요."), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        content_dialog.dismiss();
+                        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); //년,월,일,시간 포멧 설정
+                        Date time = new Date(); //파일명 중복 방지를 위해 사용될 현재시간
+                        String current_time = sdf.format(time); //String형 변수에 저장
+
+                        LinearLayout capture_target_Layout = (LinearLayout) findViewById(R.id.poster_view_l); //캡쳐할 영역의 레이아웃
+
+                        Request_Capture(capture_target_Layout, current_time + "_capture"); //지정한 Layout 영역 사진첩 저장
+
+                        //메인 인텐트로 이동
+                        Toast.makeText(getApplicationContext(), String.format("저장이 완료되었습니다."), Toast.LENGTH_SHORT).show();
+
+                        Intent intent2 = new Intent(MakePosterActivity2.this, MainActivity.class);
+                        intent2.putExtra("cur_user_id", cur_user_id);
+                        startActivity(intent2);
+
+                    }
+                });
+
+
+
 
             }
         });
@@ -1069,6 +1106,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                 map.put("userId", name);
                 map.put("upload", encodeImageString);
+
+                map.put("title", insert_title);
+                map.put("hashtag", insert_hashtag);
+                map.put("content", insert_content);
 
                 return map;
             }

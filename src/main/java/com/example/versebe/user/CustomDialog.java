@@ -12,11 +12,13 @@ import com.example.versebe.R;
 
 public class CustomDialog extends Dialog
 {
-    CustomDialog m_oDialog;
+
+    CustomDialog dialog;
 
     TextView title;
     TextView content;
     TextView hashtag;
+    Button OK;
 
 
 
@@ -38,32 +40,19 @@ public class CustomDialog extends Dialog
 
         setContentView(R.layout.custom_dialog);
 
-        m_oDialog = this;
+        dialog = this;
+
+
+        OK = this.findViewById(R.id.customdialog_OK);
+
+        title = findViewById(R.id.customdialog_title);
+        content = findViewById(R.id.customdialog_content);
+        hashtag = findViewById(R.id.customdialog_hashtag);
 
 
 
-        Button OK = (Button)this.findViewById(R.id.dialog_OK);
-
-        OK.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                //title.getText().toString();
-                //content.getText().toString();
-                //hashtag.getText().toString();
-
-
-
-
-                onClickBtn(v);
-            }
-        });
     }
 
-    public void onClickBtn(View _oView)
-    {
-        this.dismiss();
-    }
+
 }
 
