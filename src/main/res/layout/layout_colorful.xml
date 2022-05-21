@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="530dp"
-    android:background="@color/white">
+    android:layout_height="wrap_content"
+    android:background="@color/light_gray1">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,257 +19,180 @@
             <TextView
                 android:id="@+id/page_storename"
                 android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginBottom="10dp"
+                android:layout_height="40dp"
                 android:background="@color/purple_700"
                 android:gravity="center"
                 android:padding="10dp"
                 android:text="STORE NAME"
-                android:textColor="@color/black"
-                android:textSize="34sp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/page_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:fontFamily="sans-serif-black"
-                    android:text="Name."
-                    android:textColor="@color/purple_700"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/page_category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Category."
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/page_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Location."
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/page_tel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="Tel."
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:id="@+id/imageView_1"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:adjustViewBounds="true"
-
-                android:background="@color/light_gray3"
-                android:scaleType="fitXY">
-
-                <ImageView
-                    android:id="@+id/camera1"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:src="@android:drawable/ic_menu_camera" />
-
-            </FrameLayout>
-
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="WITH   YOU"
-                android:textColor="@color/purple_700"
-                android:textSize="72sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <FrameLayout
-                    android:id="@+id/imageView_2"
-                    android:layout_width="250dp"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="40dp"
-                    android:layout_marginBottom="40dp"
-                    android:background="@color/light_gray3"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY">
-
-                    <ImageView
-                        android:id="@+id/camera3"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:scaleType="fitXY"
-                        android:src="@android:drawable/ic_menu_camera" />
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView14"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="100dp"
-                android:gravity="center"
-                android:text="HEALTHY"
-                android:textColor="@color/purple_700"
-                android:textSize="72sp"
-                android:textStyle="bold" />
-
-            <SurfaceView
-                android:id="@+id/surfaceView2"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="30dp"
-                android:rotationX="-30" />
-
-            <FrameLayout
-                android:id="@+id/imageView_3"
-                android:layout_width="280dp"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="5dp"
-                android:adjustViewBounds="true"
-                android:background="@color/light_gray3"
-                android:scaleType="fitXY">
-
-                <ImageView
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    app:srcCompat="@android:drawable/ic_menu_camera" />
-
-            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <FrameLayout
-                    android:id="@+id/imageView_4"
-                    android:layout_width="140dp"
-                    android:layout_height="200dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginRight="5dp"
+                    android:id="@+id/imageView_1"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+
                     android:adjustViewBounds="true"
-                    android:background="@color/light_gray3"
+                    android:background="@color/light_gray2"
                     android:scaleType="fitXY">
 
                     <ImageView
-                        android:id="@+id/camera4"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_camera" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/imageView_5"
-                    android:layout_width="135dp"
-                    android:layout_height="200dp"
-                    android:adjustViewBounds="true"
-                    android:background="@color/light_gray3"
-                    android:foregroundGravity="right"
-                    android:scaleType="fitXY">
-
-                    <ImageView
-                        android:id="@+id/camera5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
+                        android:id="@+id/camera1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:layout_gravity="center"
                         android:src="@android:drawable/ic_menu_camera" />
                 </FrameLayout>
 
-            </LinearLayout>
-
-            <SurfaceView
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginBottom="30dp"
-                android:rotationX="30" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="250dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:rotation="90"
-                    android:text="Life's not all gloom and despondency."
-                    android:textColor="@color/purple_700"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
 
-                <FrameLayout
-                    android:id="@+id/imageView_6"
-                    android:layout_width="180dp"
-                    android:layout_height="200dp"
-                    android:background="@color/light_gray3"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitXY">
+                    <TextView
+                        android:id="@+id/page_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Name."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
 
-                    <ImageView
-                        android:id="@+id/camera6"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center"
-                        android:src="@android:drawable/ic_menu_camera" />
-                </FrameLayout>
+                    <TextView
+                        android:id="@+id/page_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Category."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
 
+                    <TextView
+                        android:id="@+id/page_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Location."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/page_tel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Tel."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <FrameLayout
-                android:id="@+id/imageView_7"
-                android:layout_width="410dp"
-                android:layout_height="250dp"
-                android:layout_marginBottom="40dp"
+                android:id="@+id/imageView_2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:background="@color/light_gray2"
                 android:scaleType="fitXY">
 
                 <ImageView
-                    android:id="@+id/camera7"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/camera2"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scrollbarDefaultDelayBeforeFade="410"
+                    android:src="@android:drawable/ic_menu_camera" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/imageView_3"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera3"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@android:drawable/ic_menu_camera" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/imageView_4"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera4"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/imageView_5"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera5"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/imageView_6"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:adjustViewBounds="true"
+                android:background="@color/light_gray2"
+                android:scaleType="fitXY">
+
+                <ImageView
+                    android:id="@+id/camera6"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_camera" />
             </FrameLayout>

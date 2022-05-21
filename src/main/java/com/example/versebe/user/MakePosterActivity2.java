@@ -46,6 +46,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.versebe.R;
+import com.example.versebe.main_page.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -186,7 +187,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
         //버튼 클릭시 해당 xml 가져오기
-        Sub n_layout = new Sub(getApplicationContext(), article_num);
+        Sub n_layout = new Sub(getApplicationContext(),article_num);
         LinearLayout con = (LinearLayout)findViewById(R.id.poster_view_l);
         con.addView(n_layout);
 
@@ -964,6 +965,13 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                 LinearLayout capture_target_Layout = (LinearLayout)findViewById(R.id.poster_view_l); //캡쳐할 영역의 레이아웃
                 Request_Capture(capture_target_Layout,current_time + "_capture"); //지정한 Layout 영역 사진첩 저장
+
+                //메인 인텐트로 이동
+                Toast.makeText(getApplicationContext(), String.format("저장이 완료되었습니다."), Toast.LENGTH_SHORT).show();
+
+                Intent intent2 = new Intent(MakePosterActivity2.this, MainActivity.class);
+                intent2.putExtra("cur_user_id",cur_user_id);
+                startActivity(intent2);
 
             }
         });

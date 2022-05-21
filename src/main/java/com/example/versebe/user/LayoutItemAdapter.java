@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.versebe.R;
 
 import java.util.ArrayList;
@@ -49,7 +50,8 @@ public class LayoutItemAdapter extends RecyclerView.Adapter implements OnLayoutI
         VH vh = (VH)viewHolder;
         LayoutItem item = items.get(position);
 
-        Glide.with(context).load(item.getThumb_image()).into(vh.image);
+        Glide.with(context).load(item.getThumb_image()).skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(vh.image);
 
 
     }
