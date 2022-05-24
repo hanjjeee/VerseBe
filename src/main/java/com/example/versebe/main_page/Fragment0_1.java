@@ -137,7 +137,8 @@ public class Fragment0_1 extends Fragment {
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
 
-                        String thumb_image_path = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + thumb_image;
+                        //String thumb_image_path = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + thumb_image;
+                        String thumb_image_path = "http://hanjiyoon.dothome.co.kr/posters/" + thumb_image;
                         String poster_image_path = "http://hanjiyoon.dothome.co.kr/posters/" + poster_image;
 
                         items.add(0, new FeedItem(type,thumb_image_path,user_id,update_date,last_date,

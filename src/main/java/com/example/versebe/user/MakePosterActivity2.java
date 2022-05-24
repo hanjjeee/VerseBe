@@ -7,11 +7,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
+
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -20,10 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
+
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,9 +48,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.versebe.R;
 import com.example.versebe.main_page.MainActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -64,11 +62,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
+
 import java.util.Map;
 import java.util.StringTokenizer;
 import java.util.stream.Collectors;
@@ -84,8 +82,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
     private Button poster_save_button;
 
-    private int item_num;
-    private String tmp;
+
 
     private String cur_user_id;
 
@@ -106,10 +103,13 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
     private static final String url_upload = "http://hanjiyoon.dothome.co.kr/upload_poster.php";
     String encodeImageString;
-    Bitmap bitmap;
+    FileOutputStream fos;
+    Bitmap bitmap, bitmap_server;
     String insert_title;
     String insert_content;
     String insert_hashtag;
+
+    int check_index;
 
 
 
@@ -142,6 +142,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_make_poster);
+
 
         intent = getIntent();
         cur_user_id = intent.getExtras().getString("cur_user_id");
@@ -233,8 +234,28 @@ public class MakePosterActivity2 extends AppCompatActivity {
                                 Bitmap img = BitmapFactory.decodeStream(in);
                                 in.close();
 
-                                //가져온 사진 처리
-                                ImageView tmp = findViewById(R.id.camera1);
+                                //가져온 사진 처리 **camera 1-6 수정
+                                ImageView tmp=null;
+
+                                if(check_index == 1){
+                                    tmp = findViewById(R.id.camera1);
+                                }
+                                else if(check_index == 2){
+                                    tmp = findViewById(R.id.camera2);
+                                }
+                                else if(check_index == 3){
+                                    tmp = findViewById(R.id.camera3);
+                                }
+                                else if(check_index == 4){
+                                    tmp = findViewById(R.id.camera4);
+                                }
+                                else if(check_index == 5){
+                                    tmp = findViewById(R.id.camera5);
+                                }
+                                else if(check_index == 6){
+                                    tmp = findViewById(R.id.camera6);
+                                }
+
                                 tmp.setImageBitmap(img);
 
 
@@ -247,8 +268,9 @@ public class MakePosterActivity2 extends AppCompatActivity {
                 }
         );
 
-        //갤러리에서 가져오기 버튼
 
+        //갤러리에서 가져오기 버튼
+        //1-6 추가
         findViewById(R.id.imageView_1).setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -256,6 +278,93 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                 //갤러리 열리는지 테스트
                 //갤러리 호출
+                check_index=1;
+
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent1.setAction(Intent.ACTION_PICK);
+                activityResultLauncher.launch(intent1);
+
+
+            }
+        });
+        findViewById(R.id.imageView_2).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //갤러리 열리는지 테스트
+                //갤러리 호출
+                check_index=2;
+
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent1.setAction(Intent.ACTION_PICK);
+                activityResultLauncher.launch(intent1);
+
+
+            }
+        });
+        findViewById(R.id.imageView_3).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //갤러리 열리는지 테스트
+                //갤러리 호출
+                check_index=3;
+
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent1.setAction(Intent.ACTION_PICK);
+                activityResultLauncher.launch(intent1);
+
+
+            }
+        });
+        findViewById(R.id.imageView_4).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //갤러리 열리는지 테스트
+                //갤러리 호출
+                check_index=4;
+
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent1.setAction(Intent.ACTION_PICK);
+                activityResultLauncher.launch(intent1);
+
+
+            }
+        });
+        findViewById(R.id.imageView_5).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //갤러리 열리는지 테스트
+                //갤러리 호출
+                check_index=5;
+
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                intent1.setAction(Intent.ACTION_PICK);
+                activityResultLauncher.launch(intent1);
+
+
+            }
+        });
+        findViewById(R.id.imageView_6).setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                //갤러리 열리는지 테스트
+                //갤러리 호출
+                check_index=6;
+
                 Intent intent1 = new Intent(Intent.ACTION_PICK);
                 intent1.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 intent1.setAction(Intent.ACTION_PICK);
@@ -1032,7 +1141,9 @@ public class MakePosterActivity2 extends AppCompatActivity {
         /* 캡쳐 파일 저장 */
         view.buildDrawingCache(); //캐시 비트 맵 만들기
         bitmap = view.getDrawingCache();
-        FileOutputStream fos;
+        bitmap_server = view.getDrawingCache();
+
+
 
         /* 저장할 폴더 Setting */
         File uploadFolder = Environment.getExternalStoragePublicDirectory("/DCIM/Camera/"); //저장 경로 (File Type형 변수)
@@ -1053,8 +1164,10 @@ public class MakePosterActivity2 extends AppCompatActivity {
             bitmap = Bitmap.createScaledBitmap(bitmap, 250, 700, true);
             bitmap.compress(Bitmap.CompressFormat.PNG,100,fos);
 
+
             //서버 업로드
-            encodeBitmapImage(bitmap);
+            bitmap_server = Bitmap.createScaledBitmap(bitmap_server, 250, 700, true);
+            encodeBitmapImage(bitmap_server);
             uploadDataToDB();
 
 
@@ -1063,7 +1176,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //캡쳐 파일 미디어 스캔 (https://hongdroid.tistory.com/7)
+        //캡쳐 파일 미디어 스캔
 
         MediaScanner ms = MediaScanner.newInstance(getApplicationContext());
 
@@ -1125,11 +1238,13 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private void encodeBitmapImage(Bitmap bitmap)
     {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap_server.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
         encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
 
     }
+
 
 
 

@@ -136,7 +136,7 @@ public class Fragment0_3 extends Fragment {
 
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
-                        thumb_image = "http://hanjiyoon.dothome.co.kr/poster_thumb/" + thumb_image;
+                        thumb_image = "http://hanjiyoon.dothome.co.kr/posters/" + thumb_image;
                         poster_image = "http://hanjiyoon.dothome.co.kr/posters/" + article_num;
 
                         items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
