@@ -49,7 +49,8 @@ public class FeedItemAdapter extends RecyclerView.Adapter implements OnFeedItemC
         VH vh = (VH)viewHolder;
         FeedItem item = items.get(position);
 
-        Glide.with(context).load(item.getThumb_image()).into(vh.image);
+        Glide.with(context).load(item.getThumb_image()).skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(vh.image);
 
 
     }

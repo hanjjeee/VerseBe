@@ -1141,7 +1141,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
         /* 캡쳐 파일 저장 */
         view.buildDrawingCache(); //캐시 비트 맵 만들기
         bitmap = view.getDrawingCache();
-        bitmap_server = view.getDrawingCache();
+        bitmap_server = bitmap;
 
 
 
@@ -1201,7 +1201,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
             @Override
             public void onResponse(String response)
             {
-
                 Toast.makeText(MakePosterActivity2.this, response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
