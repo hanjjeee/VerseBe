@@ -6,19 +6,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.versebe.R;
 
+import java.text.BreakIterator;
+
 public class CustomDialog extends Dialog
 {
 
-    CustomDialog dialog;
 
-    TextView title;
-    TextView content;
-    TextView hashtag;
-    Button OK;
+    public CustomDialog dialog;
+
+    public ImageView poster;
+    public TextView title;
+    public TextView content;
+    public TextView hashtag;
+    public Button OK;
 
 
 
@@ -45,6 +50,7 @@ public class CustomDialog extends Dialog
 
         OK = this.findViewById(R.id.customdialog_OK);
 
+        poster = findViewById(R.id.poster_preview);
         title = findViewById(R.id.customdialog_title);
         content = findViewById(R.id.customdialog_content);
         hashtag = findViewById(R.id.customdialog_hashtag);

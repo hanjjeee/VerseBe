@@ -80,7 +80,7 @@ public class SearchActivity extends AppCompatActivity {
         //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
 
         //유저 : search.php파일 생성하기
-        String url = "http://hanjiyoon.dothome.co.kr/search_article.php";
+        String url = "http://hanjiyoon.dothome.co.kr/posters.php";
 
 
 
@@ -120,7 +120,7 @@ public class SearchActivity extends AppCompatActivity {
 
 
                         //이미지 경로의 경우 서버 IP가 제외된 주소이므로(uploads/xxxx.jpg) 바로 사용 불가.
-                        thumb_image = "http://hanjiyoon.dothome.co.kr/app_image/" + thumb_image;
+                        thumb_image = "http://hanjiyoon.dothome.co.kr/posters/" + thumb_image;
 
                         items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
                                 poster_image,hash_tag,article_num,title,content,scrap));

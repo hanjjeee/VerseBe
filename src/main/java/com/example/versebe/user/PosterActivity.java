@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.versebe.R;
 import com.example.versebe.main_page.MainActivity;
 
@@ -89,7 +90,8 @@ public class PosterActivity extends AppCompatActivity {
         comment_button = findViewById(R.id.comment_button);
 
 
-        Glide.with(this).load(poster_image).into(poster_image_view);
+        Glide.with(this).load(poster_image).skipMemoryCache(true)
+                .diskCacheStrategy(DiskCacheStrategy.NONE).into(poster_image_view);
         poster_user_id.setText(user_id);
 
         poster_scrap_count.setText(scrap+"");

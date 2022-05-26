@@ -72,6 +72,8 @@
             android:name=".user.ChoiceLayout"/>
         <activity
             android:name=".user.MakePosterActivity2"/>
+        <activity
+            android:name=".user.LayoutActivity"/>
 
 
 

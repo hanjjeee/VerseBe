@@ -26,6 +26,7 @@ import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FeedItemAdapter;
 import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
+import com.example.versebe.user.LayoutActivity;
 import com.example.versebe.user.MemberActivity;
 import com.example.versebe.user.OnFeedItemClickListener;
 import com.example.versebe.user.PosterActivity;
@@ -130,15 +131,15 @@ public class Fragment0_2 extends Fragment {
                         hash_tag = jsonObject.getString("HASH_TAG");
                         title = jsonObject.getString("TITLE");
                         layout_image = jsonObject.getString("LAYOUT_IMAGE");
-                        content = jsonObject.getString("CONTENT");
-                        scrap = jsonObject.getInt("SCRAP");
+                        //content = jsonObject.getString("CONTENT");
+                        //scrap = jsonObject.getInt("SCRAP");
 
 
 
                         //test
                         //image_path = "http://hanjiyoon.dothome.co.kr/app_image/" + image_path;
-                        thumb_image = "http://hanjiyoon.dothome.co.kr/layout_thumb/" + thumb_image;
-                        layout_image = "http://hanjiyoon.dothome.co.kr/layouts/" + article_num;
+                        thumb_image = "http://hanjiyoon.dothome.co.kr/layout_thumb/" + layout_image;
+                        layout_image = "http://hanjiyoon.dothome.co.kr/layouts/" + layout_image;
 
                         items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
                                 layout_image,hash_tag,article_num,title,content, scrap));
@@ -173,7 +174,7 @@ public class Fragment0_2 extends Fragment {
 
                 Toast.makeText(getContext(),"아이템 선택 " + item.getUser_id(), Toast.LENGTH_LONG).show();
 
-                Intent feed_intent = new Intent(getContext(), PosterActivity.class);
+                Intent feed_intent = new Intent(getContext(), LayoutActivity.class);
 
                 feed_intent.putExtra( "cur_user_id", cur_user_id);
                 feed_intent.putExtra( "POSTER_NUM", item.getArticle_num());

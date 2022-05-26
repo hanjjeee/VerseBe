@@ -101,13 +101,15 @@ public class MakePosterActivity2 extends AppCompatActivity {
     private boolean daum_flag;
     private String store_name;
 
-    private static final String url_upload = "http://hanjiyoon.dothome.co.kr/upload_poster.php";
+    String url_upload = "http://hanjiyoon.dothome.co.kr/upload_poster.php";
     String encodeImageString;
     FileOutputStream fos;
     Bitmap bitmap, bitmap_server;
-    String insert_title;
+
     String insert_content;
     String insert_hashtag;
+    String insert_title;
+
 
     int check_index;
 
@@ -146,6 +148,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
         intent = getIntent();
         cur_user_id = intent.getExtras().getString("cur_user_id");
+
         naver_flag = intent.getExtras().getBoolean("naver_flag");
         google_flag = intent.getExtras().getBoolean("google_flag");
         daum_flag = intent.getExtras().getBoolean("daum_flag");
@@ -1075,34 +1078,53 @@ public class MakePosterActivity2 extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                LinearLayout capture_target_Layout = (LinearLayout) findViewById(R.id.poster_view_l); //캡쳐할 영역의 레이아웃
+
+                capture_target_Layout.buildDrawingCache(); //캐시 비트 맵 만들기
+                bitmap_server = capture_target_Layout.getDrawingCache();
 
 
                 CustomDialog content_dialog = new CustomDialog(MakePosterActivity2.this);
                 content_dialog.setCancelable(false);
                 content_dialog.show();
 
+                content_dialog.poster.setImageBitmap(bitmap_server);
 
 
-
+                //다이얼로그
                 content_dialog.OK.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View view) {
+
 
                         insert_title = content_dialog.title.getText().toString();
                         insert_content = content_dialog.content.getText().toString();
                         insert_hashtag = content_dialog.hashtag.getText().toString();
 
+
                         if(insert_title.isEmpty()||insert_hashtag.isEmpty()||insert_content.isEmpty()){
-                            Toast.makeText(getApplicationContext(), String.format("모든 칸을 입력해 주세요."), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MakePosterActivity2.this, String.format("모든 칸을 입력해 주세요."), Toast.LENGTH_SHORT).show();
                             return;
+
                         }
 
+                        //서버 업로드
+                        bitmap_server = Bitmap.createScaledBitmap(bitmap_server, 250, 700, true);
+                        encodeBitmapImage(bitmap_server);
+                        uploadDataToDB();
+
+
                         content_dialog.dismiss();
+
+
+
+                        //갤러리 저장
                         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss"); //년,월,일,시간 포멧 설정
                         Date time = new Date(); //파일명 중복 방지를 위해 사용될 현재시간
                         String current_time = sdf.format(time); //String형 변수에 저장
 
-                        LinearLayout capture_target_Layout = (LinearLayout) findViewById(R.id.poster_view_l); //캡쳐할 영역의 레이아웃
+
 
                         Request_Capture(capture_target_Layout, current_time + "_capture"); //지정한 Layout 영역 사진첩 저장
 
@@ -1113,14 +1135,24 @@ public class MakePosterActivity2 extends AppCompatActivity {
                         intent2.putExtra("cur_user_id", cur_user_id);
                         startActivity(intent2);
 
-                    }
-                });
+
+
+                    }//end of ok Click
+                });//end of ok button
 
 
 
 
-            }
-        });
+
+
+
+
+
+
+
+            }//end of poster save onClick
+
+        });//end of poster save button
 
 
 
@@ -1130,6 +1162,9 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
 
     }
+
+
+
 
     //포스터 저장
     public void Request_Capture(View view, String title){
@@ -1141,7 +1176,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
         /* 캡쳐 파일 저장 */
         view.buildDrawingCache(); //캐시 비트 맵 만들기
         bitmap = view.getDrawingCache();
-        bitmap_server = bitmap;
+
 
 
 
@@ -1154,7 +1189,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
             uploadFolder.mkdir(); //폴더 생성
         }
 
-        /* 파일 저장, 서버 전송추가하기 */
+        /* 파일 저장*/
         String Str_Path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/DCIM/Camera/"; //저장 경로 (String Type 변수)
 
         try{
@@ -1163,12 +1198,6 @@ public class MakePosterActivity2 extends AppCompatActivity {
             fos = new FileOutputStream(Str_Path+title+".png"); // 경로 + 제목 + .jpg로 FileOutputStream Setting
             bitmap = Bitmap.createScaledBitmap(bitmap, 250, 700, true);
             bitmap.compress(Bitmap.CompressFormat.PNG,100,fos);
-
-
-            //서버 업로드
-            bitmap_server = Bitmap.createScaledBitmap(bitmap_server, 250, 700, true);
-            encodeBitmapImage(bitmap_server);
-            uploadDataToDB();
 
 
 
@@ -1191,16 +1220,14 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
     }//End Function
 
-
     private void uploadDataToDB()
     {
-
-        String name = cur_user_id;
 
         StringRequest request = new StringRequest(Request.Method.POST, url_upload, new Response.Listener<String>() {
             @Override
             public void onResponse(String response)
             {
+
                 Toast.makeText(MakePosterActivity2.this, response.toString(), Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
@@ -1212,16 +1239,17 @@ public class MakePosterActivity2 extends AppCompatActivity {
         })
         {
             @Override
-            public Map<String, String> getParams() throws AuthFailureError
+            protected Map<String, String> getParams() throws AuthFailureError
             {
                 Map<String, String> map = new HashMap<>();
 
-                map.put("userId", name);
+                map.put("userId", cur_user_id);
                 map.put("upload", encodeImageString);
 
-                map.put("title", insert_title);
-                map.put("hashtag", insert_hashtag);
-                map.put("content", insert_content);
+                map.put("title",insert_title);
+                map.put("content",insert_content);
+                map.put("hashtag",insert_hashtag);
+
 
                 return map;
             }
@@ -1233,17 +1261,16 @@ public class MakePosterActivity2 extends AppCompatActivity {
     }
 
 
-
-    private void encodeBitmapImage(Bitmap bitmap)
+    private void encodeBitmapImage(Bitmap bitmap_server)
     {
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap_server.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
+
         encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
-
     }
-
 
 
 

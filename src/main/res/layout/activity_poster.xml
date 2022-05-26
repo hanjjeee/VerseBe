@@ -46,11 +46,10 @@
 
         <TextView
             android:id="@+id/posterpage_user_id"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="id"
             android:textSize="16sp" />
 
         <ImageButton
@@ -62,11 +61,10 @@
 
         <TextView
             android:id="@+id/like_count"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="left"
-            android:text="255"
             android:textSize="16sp" />
 
         <ImageButton
@@ -75,14 +73,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/white"
-            android:src="@android:drawable/stat_notify_chat" />
+            android:src="@android:drawable/stat_notify_chat"
+            app:srcCompat="@drawable/comment_icon32" />
 
         <TextView
             android:id="@+id/comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="23" />
+            android:layout_weight="1" />
 
     </LinearLayout>
 
