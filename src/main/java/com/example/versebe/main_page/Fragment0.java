@@ -233,8 +233,12 @@ public class Fragment0 extends Fragment {
                                         }
 
                                         //서버 업로드
-                                        bitmap_img = Bitmap.createScaledBitmap(bitmap_img, 250, 700, true);
-                                        encodeBitmapImage(bitmap_img);
+                                        //bitmap_img = Bitmap.createScaledBitmap(bitmap_img, 250, 300, false);
+                                        try {
+                                            encodeBitmapImage(bitmap_img);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
                                         uploadDataToDB();
 
                                         try {
@@ -360,14 +364,22 @@ public class Fragment0 extends Fragment {
     }
 
 
-    private void encodeBitmapImage(Bitmap bitmap)
-    {
+    private void encodeBitmapImage(Bitmap bitmap) throws IOException {
+
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
 
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
 
+
         encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
+
+        byteArrayOutputStream.close();
+
+
+
     }
 
 

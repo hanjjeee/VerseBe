@@ -1111,7 +1111,11 @@ public class MakePosterActivity2 extends AppCompatActivity {
 
                         //서버 업로드
                         bitmap_server = Bitmap.createScaledBitmap(bitmap_server, 250, 700, true);
-                        encodeBitmapImage(bitmap_server);
+                        try {
+                            encodeBitmapImage(bitmap_server);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         uploadDataToDB();
 
 
@@ -1261,8 +1265,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
     }
 
 
-    private void encodeBitmapImage(Bitmap bitmap_server)
-    {
+    private void encodeBitmapImage(Bitmap bitmap_server) throws IOException {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap_server.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
@@ -1270,6 +1273,8 @@ public class MakePosterActivity2 extends AppCompatActivity {
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
 
         encodeImageString = android.util.Base64.encodeToString(bytesOfImage, Base64.DEFAULT);
+        byteArrayOutputStream.close();
+
     }
 
 
