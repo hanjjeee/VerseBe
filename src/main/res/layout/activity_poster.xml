@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:gravity="center"
         android:orientation="horizontal"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -52,35 +53,13 @@
             android:gravity="left"
             android:textSize="16sp" />
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            app:srcCompat="@android:drawable/ic_input_get" />
-
-        <TextView
-            android:id="@+id/like_count"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="left"
-            android:textSize="16sp" />
-
-        <ImageButton
+        <Button
             android:id="@+id/comment_button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@color/white"
-            android:src="@android:drawable/stat_notify_chat"
-            app:srcCompat="@drawable/comment_icon32" />
-
-        <TextView
-            android:id="@+id/comment_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="작품설명 / 댓글" />
 
     </LinearLayout>
 

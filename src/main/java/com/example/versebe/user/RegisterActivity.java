@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(RegisterActivity.this);
                 queue.add(registerRequest);
 
-            }
+            }//end of onClick
         });
 
 

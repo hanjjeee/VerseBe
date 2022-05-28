@@ -3,6 +3,7 @@ package com.example.versebe.user;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,9 +49,8 @@ public class PosterActivity extends AppCompatActivity {
 
     private ImageView poster_image_view;
     private TextView poster_user_id;
-    private TextView poster_scrap_count;
     private ImageButton like_button;
-    private ImageButton comment_button;
+    private Button comment_button;
 
 
 
@@ -84,7 +84,7 @@ public class PosterActivity extends AppCompatActivity {
 
         poster_image_view = findViewById(R.id.poster_image);
         poster_user_id = findViewById(R.id.posterpage_user_id);
-        poster_scrap_count = findViewById(R.id.like_count);
+
 
         like_button = findViewById(R.id.posterpage_like_button);
         comment_button = findViewById(R.id.comment_button);
@@ -93,9 +93,6 @@ public class PosterActivity extends AppCompatActivity {
         Glide.with(this).load(poster_image).skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.NONE).into(poster_image_view);
         poster_user_id.setText(user_id);
-
-        poster_scrap_count.setText(scrap+"");
-
 
 
         //버튼들
