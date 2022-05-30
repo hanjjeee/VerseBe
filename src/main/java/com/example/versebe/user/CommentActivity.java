@@ -1,6 +1,7 @@
 package com.example.versebe.user;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -188,8 +189,14 @@ public class CommentActivity extends AppCompatActivity {
                             if (success) {
                                 // 댓글 등록성공
                                 Toast.makeText(getApplicationContext(), "댓글 등록에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(CommentActivity.this, CommentActivity.class);
-                                startActivity(intent);
+
+                                Intent intent2 = getIntent();
+                                finish();
+                                startActivity(intent2);
+
+
+
+
                             } else {
                                 // 회원등록실패
                                 Toast.makeText(getApplicationContext(), "댓글 등록에 실패하였습니다.", Toast.LENGTH_SHORT).show();
