@@ -2,10 +2,12 @@ package com.example.versebe.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -95,172 +97,461 @@ public class PosterActivity extends AppCompatActivity {
         poster_user_id.setText(user_id);
 
 
-        //버튼들
+        //버튼들***
         like_button.setOnClickListener(new View.OnClickListener(){
 
 
             @Override
             public void onClick(View view) {
 
+                final PopupMenu popupMenu = new PopupMenu(getApplicationContext(), view);
 
-                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                //작품이 자신 작품인 경우 삭제 메뉴 활성화
+                if(cur_user_id.equals(user_id)){
+                    getMenuInflater().inflate(R.menu.menu2, popupMenu.getMenu());
+                }
+                //자신 작품이 아닌 경우
+                else{
+                    getMenuInflater().inflate(R.menu.menu3, popupMenu.getMenu());
+                }
+
+
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public void onResponse(String response) {
+                    public boolean onMenuItemClick(MenuItem menuItem) {
 
-                        try {
+                        if (menuItem.getItemId() == R.id.save_menu) {
+                            Toast.makeText(getApplicationContext(), "poster 스크랩", Toast.LENGTH_SHORT).show();
 
-                            System.out.println("hanjiyoon"+ response);
-                            JSONObject jsonObject = new JSONObject(response);
+                            //스크랩 버튼 누를 시
+                            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
 
-                            boolean success = jsonObject.getBoolean("success");
+                                    try {
 
-                            if (success) {
+                                        System.out.println("hanjiyoon"+ response);
+                                        JSONObject jsonObject = new JSONObject(response);
 
-                                //서버주소
-                                String url = "http://hanjiyoon.dothome.co.kr/like.php";
+                                        boolean success = jsonObject.getBoolean("success");
 
-                                //결과를 JsonArray 로 받음
-                                //JsonArrayRequest를 이용
-                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+                                        if (success) {
 
-                                    //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+                                            //서버주소
+                                            String url = "http://hanjiyoon.dothome.co.kr/like.php";
 
-                                    @Override
-                                    public void onResponse(JSONArray response) {
+                                            //결과를 JsonArray 로 받음
+                                            //JsonArrayRequest를 이용
+                                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
 
-                                        //db 연결 확인용
-                                        //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                                                //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+
+                                                @Override
+                                                public void onResponse(JSONArray response) {
+
+                                                    //db 연결 확인용
+                                                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
 
 
-                                        try {
+                                                    try {
 
-                                            for (int i = 0; i < response.length(); i++) {
+                                                        for (int i = 0; i < response.length(); i++) {
 
-                                                JSONObject jsonObject = response.getJSONObject(i);
+                                                            JSONObject jsonObject = response.getJSONObject(i);
 
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            //실제 요청 작업을 수행해주는 요청큐 객체 생성
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                                            //요청큐에 요청 객체 생성
+                                            requestQueue.add(jsonArrayRequest);
+
+
+
+                                            Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
+                                            return;
+
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+                                            return;
                                         }
 
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
 
-                                //실제 요청 작업을 수행해주는 요청큐 객체 생성
-                                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                                }
+                            };
 
-                                //요청큐에 요청 객체 생성
-                                requestQueue.add(jsonArrayRequest);
-
-
-
-                                Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
-                                return;
-
-                            } else {
-
-                                Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
-                                return;
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                };
-
-                // 서버로 Volley를 통해 연결
-                LikeRequest likeRequest = new LikeRequest(cur_user_id, article_num, type,responseListener);
-                RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
-                queue.add(likeRequest);
+                            // 서버로 Volley를 통해 연결
+                            LikeRequest likeRequest = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
+                            queue.add(likeRequest);
 
 
 
 
-                Response.Listener<String> responseListener2 = new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+                            Response.Listener<String> responseListener2 = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
 
-                        try {
+                                    try {
 
-                            System.out.println("hanjiyoon"+ response);
-                            JSONObject jsonObject = new JSONObject(response);
+                                        System.out.println("hanjiyoon"+ response);
+                                        JSONObject jsonObject = new JSONObject(response);
 
-                            boolean success = jsonObject.getBoolean("success");
+                                        boolean success = jsonObject.getBoolean("success");
 
-                            if (success) {
+                                        if (success) {
 
-                                //서버주소
-                                String url = "http://hanjiyoon.dothome.co.kr/like2.php";
+                                            //서버주소
+                                            String url = "http://hanjiyoon.dothome.co.kr/like2.php";
 
-                                //결과를 JsonArray 로 받음
-                                //JsonArrayRequest를 이용
-                                JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+                                            //결과를 JsonArray 로 받음
+                                            //JsonArrayRequest를 이용
+                                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
 
-                                    //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+                                                //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
 
-                                    @Override
-                                    public void onResponse(JSONArray response) {
+                                                @Override
+                                                public void onResponse(JSONArray response) {
 
-                                        //db 연결 확인용
-                                        //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+                                                    //db 연결 확인용
+                                                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
 
 
 
-                                        try {
+                                                    try {
 
-                                            for (int i = 0; i < response.length(); i++) {
+                                                        for (int i = 0; i < response.length(); i++) {
 
-                                                JSONObject jsonObject = response.getJSONObject(i);
+                                                            JSONObject jsonObject = response.getJSONObject(i);
 
-                                            }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            //실제 요청 작업을 수행해주는 요청큐 객체 생성
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                                            //요청큐에 요청 객체 생성
+                                            requestQueue.add(jsonArrayRequest);
+
+
+
+                                            Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
+                                            return;
+
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+                                            return;
                                         }
 
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-                                        Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+
+                                }
+                            };
+
+                            // 서버로 Volley를 통해 연결
+                            LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            RequestQueue queue2 = Volley.newRequestQueue(PosterActivity.this);
+                            queue2.add(likeRequest2);
+
+                            //end of 스크랩버튼
+
+
+
+
+                        } else if (menuItem.getItemId() == R.id.save_cancle_menu) {
+                            Toast.makeText(getApplicationContext(), "스크랩 취소", Toast.LENGTH_SHORT).show();
+
+                            //스크랩 버튼 누를 시
+                            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+
+                                    try {
+
+                                        System.out.println("hanjiyoon"+ response);
+                                        JSONObject jsonObject = new JSONObject(response);
+
+                                        boolean success = jsonObject.getBoolean("success");
+
+                                        if (success) {
+
+                                            //서버주소
+                                            String url = "http://hanjiyoon.dothome.co.kr/like_cancle.php";
+
+                                            //결과를 JsonArray 로 받음
+                                            //JsonArrayRequest를 이용
+                                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+
+                                                //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+
+                                                @Override
+                                                public void onResponse(JSONArray response) {
+
+                                                    //db 연결 확인용
+                                                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+
+
+                                                    try {
+
+                                                        for (int i = 0; i < response.length(); i++) {
+
+                                                            JSONObject jsonObject = response.getJSONObject(i);
+
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            //실제 요청 작업을 수행해주는 요청큐 객체 생성
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                                            //요청큐에 요청 객체 생성
+                                            requestQueue.add(jsonArrayRequest);
+
+
+
+                                            Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
+                                            return;
+
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                });
 
-                                //실제 요청 작업을 수행해주는 요청큐 객체 생성
-                                RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+                                }
+                            };
 
-                                //요청큐에 요청 객체 생성
-                                requestQueue.add(jsonArrayRequest);
+                            // 서버로 Volley를 통해 연결
+                            LikeRequest likeRequest = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
+                            queue.add(likeRequest);
 
 
 
-                                Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
-                                return;
 
-                            } else {
+                            Response.Listener<String> responseListener2 = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
 
-                                Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+                                    try {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                        System.out.println("hanjiyoon"+ response);
+                                        JSONObject jsonObject = new JSONObject(response);
+
+                                        boolean success = jsonObject.getBoolean("success");
+
+                                        if (success) {
+
+                                            //서버주소
+                                            String url = "http://hanjiyoon.dothome.co.kr/like2_cancle.php";
+
+                                            //결과를 JsonArray 로 받음
+                                            //JsonArrayRequest를 이용
+                                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+
+                                                //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+
+                                                @Override
+                                                public void onResponse(JSONArray response) {
+
+                                                    //db 연결 확인용
+                                                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+
+
+                                                    try {
+
+                                                        for (int i = 0; i < response.length(); i++) {
+
+                                                            JSONObject jsonObject = response.getJSONObject(i);
+
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            //실제 요청 작업을 수행해주는 요청큐 객체 생성
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                                            //요청큐에 요청 객체 생성
+                                            requestQueue.add(jsonArrayRequest);
+
+
+
+                                            Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
+                                            return;
+
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            };
+
+                            // 서버로 Volley를 통해 연결
+                            LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            RequestQueue queue2 = Volley.newRequestQueue(PosterActivity.this);
+                            queue2.add(likeRequest2);
+
+                            //end of 스크랩버튼
+
+
                         }
 
-                    }
-                };
+                        else if(menuItem.getItemId() == R.id.delete_menu){
+                            Toast.makeText(getApplicationContext(), "작품 삭제", Toast.LENGTH_SHORT).show();
 
-                // 서버로 Volley를 통해 연결
-                LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener);
-                RequestQueue queue2 = Volley.newRequestQueue(PosterActivity.this);
-                queue2.add(likeRequest2);
+                            //스크랩 버튼 누를 시
+                            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+
+                                    try {
+
+                                        System.out.println("hanjiyoon"+ response);
+                                        JSONObject jsonObject = new JSONObject(response);
+
+                                        boolean success = jsonObject.getBoolean("success");
+
+                                        if (success) {
+
+                                            //서버주소
+                                            String url = "http://hanjiyoon.dothome.co.kr/delete.php";
+
+                                            //결과를 JsonArray 로 받음
+                                            //JsonArrayRequest를 이용
+                                            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+
+                                                //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
+
+                                                @Override
+                                                public void onResponse(JSONArray response) {
+
+                                                    //db 연결 확인용
+                                                    //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
+
+
+
+                                                    try {
+
+                                                        for (int i = 0; i < response.length(); i++) {
+
+                                                            JSONObject jsonObject = response.getJSONObject(i);
+
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+                                                    Toast.makeText(getApplicationContext(), "ERROR", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+
+                                            //실제 요청 작업을 수행해주는 요청큐 객체 생성
+                                            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+
+                                            //요청큐에 요청 객체 생성
+                                            requestQueue.add(jsonArrayRequest);
+
+
+
+                                            Toast.makeText(getApplicationContext(),"포스터넘버: "+poster_num,Toast.LENGTH_SHORT).show();
+                                            return;
+
+                                        } else {
+
+                                            Toast.makeText(getApplicationContext(),"실패",Toast.LENGTH_SHORT).show();
+                                            return;
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            };
+
+                            // 서버로 Volley를 통해 연결
+                            LikeRequest likeRequest = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
+                            queue.add(likeRequest);
+
+
+
+                        }
+
+                        return false;
+                    }
+                });
+
+                popupMenu.show();
+
+
+
+
+
 
 
 

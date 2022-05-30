@@ -7,7 +7,4 @@
     <item
         android:id="@+id/save_cancle_menu"
         android:title="작품 스크랩 취소" />
-    <item
-        android:id="@+id/delete_menu"
-        android:title="작품 삭제" />
 </menu>
