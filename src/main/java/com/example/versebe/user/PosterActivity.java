@@ -108,11 +108,13 @@ public class PosterActivity extends AppCompatActivity {
 
                 //작품이 자신 작품인 경우 삭제 메뉴 활성화
                 if(cur_user_id.equals(user_id)){
+
                     getMenuInflater().inflate(R.menu.menu2, popupMenu.getMenu());
                 }
                 //자신 작품이 아닌 경우
                 else{
                     getMenuInflater().inflate(R.menu.menu3, popupMenu.getMenu());
+
                 }
 
 
@@ -202,7 +204,7 @@ public class PosterActivity extends AppCompatActivity {
                             RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
                             queue.add(likeRequest);
 
-
+                            //ok
 
 
                             Response.Listener<String> responseListener2 = new Response.Listener<String>() {
@@ -279,7 +281,7 @@ public class PosterActivity extends AppCompatActivity {
                             };
 
                             // 서버로 Volley를 통해 연결
-                            LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener2);
                             RequestQueue queue2 = Volley.newRequestQueue(PosterActivity.this);
                             queue2.add(likeRequest2);
 
@@ -288,17 +290,18 @@ public class PosterActivity extends AppCompatActivity {
 
 
 
-                        } else if (menuItem.getItemId() == R.id.save_cancle_menu) {
+                        } else if (menuItem.getItemId() == R.id.save_cancle_menu) {//3번 리스너
                             Toast.makeText(getApplicationContext(), "스크랩 취소", Toast.LENGTH_SHORT).show();
 
-                            //스크랩 버튼 누를 시
-                            Response.Listener<String> responseListener = new Response.Listener<String>() {
+
+                            Response.Listener<String> responseListener3 = new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
 
                                     try {
 
                                         System.out.println("hanjiyoon"+ response);
+
                                         JSONObject jsonObject = new JSONObject(response);
 
                                         boolean success = jsonObject.getBoolean("success");
@@ -319,8 +322,6 @@ public class PosterActivity extends AppCompatActivity {
 
                                                     //db 연결 확인용
                                                     //Toast.makeText(getActivity(), response.toString(), Toast.LENGTH_SHORT).show();
-
-
 
                                                     try {
 
@@ -343,9 +344,10 @@ public class PosterActivity extends AppCompatActivity {
 
                                             //실제 요청 작업을 수행해주는 요청큐 객체 생성
                                             RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
-
                                             //요청큐에 요청 객체 생성
                                             requestQueue.add(jsonArrayRequest);
+
+
 
 
 
@@ -365,15 +367,16 @@ public class PosterActivity extends AppCompatActivity {
                                 }
                             };
 
+
                             // 서버로 Volley를 통해 연결
-                            LikeRequest likeRequest = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            CancleRequest cancleRequest = new CancleRequest(cur_user_id, responseListener3);
                             RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
-                            queue.add(likeRequest);
+                            queue.add(cancleRequest);
 
 
 
 
-                            Response.Listener<String> responseListener2 = new Response.Listener<String>() {
+                            Response.Listener<String> responseListener4 = new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
 
@@ -446,8 +449,8 @@ public class PosterActivity extends AppCompatActivity {
                                 }
                             };
 
-                            // 서버로 Volley를 통해 연결
-                            LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            // 서버로 Volley를 통해 연결 수정하기
+                            LikeRequest likeRequest2 = new LikeRequest(cur_user_id, article_num, type,responseListener4);
                             RequestQueue queue2 = Volley.newRequestQueue(PosterActivity.this);
                             queue2.add(likeRequest2);
 
@@ -456,11 +459,12 @@ public class PosterActivity extends AppCompatActivity {
 
                         }
 
+                        //5번 - 삭제
                         else if(menuItem.getItemId() == R.id.delete_menu){
                             Toast.makeText(getApplicationContext(), "작품 삭제", Toast.LENGTH_SHORT).show();
 
                             //스크랩 버튼 누를 시
-                            Response.Listener<String> responseListener = new Response.Listener<String>() {
+                            Response.Listener<String> responseListener5 = new Response.Listener<String>() {
                                 @Override
                                 public void onResponse(String response) {
 
@@ -534,9 +538,10 @@ public class PosterActivity extends AppCompatActivity {
                             };
 
                             // 서버로 Volley를 통해 연결
-                            LikeRequest likeRequest = new LikeRequest(cur_user_id, article_num, type,responseListener);
+                            //cancle 과 같은 정보만 전달
+                            CancleRequest deleteRequest = new CancleRequest(cur_user_id,responseListener5);
                             RequestQueue queue = Volley.newRequestQueue(PosterActivity.this);
-                            queue.add(likeRequest);
+                            queue.add(deleteRequest);
 
 
 

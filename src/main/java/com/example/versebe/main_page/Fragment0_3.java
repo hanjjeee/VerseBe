@@ -22,11 +22,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.versebe.R;
+import com.example.versebe.user.CommentActivity;
+import com.example.versebe.user.CommentInputRequest;
+import com.example.versebe.user.CommentRequest;
 import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FeedItemAdapter;
 import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
 import com.example.versebe.user.MemberActivity;
+import com.example.versebe.user.MyscrapRequest;
 import com.example.versebe.user.OnFeedItemClickListener;
 import com.example.versebe.user.PosterActivity;
 
@@ -35,6 +39,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fragment0_3 extends Fragment {
 
@@ -93,15 +99,14 @@ public class Fragment0_3 extends Fragment {
 
 
         //서버주소
-        //test 용
-        //String url = "http://hanjiyoon.dothome.co.kr/loadDB.php";
-        String url = "http://hanjiyoon.dothome.co.kr/posters.php";
+        //test
+        //String url = "http://hanjiyoon.dothome.co.kr/posters.php";
+        String url = "http://hanjiyoon.dothome.co.kr/myscrap.php";
 
         //결과를 JsonArray 로 받음
         //JsonArrayRequest를 이용
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.POST, url, null, new Response.Listener<JSONArray>() {
+        Response.Listener<JSONArray> responseListener = new Response.Listener<JSONArray>() {
 
-            //volley 라이브러리의 GET방식은 버튼 누를때마다 새로운 갱신 데이터를 불러들이지 않으므로 POST 방식 사용
 
             @Override
             public void onResponse(JSONArray response) {
@@ -118,14 +123,15 @@ public class Fragment0_3 extends Fragment {
 
                     for (int i = 0; i < response.length(); i++) {
 
+
                         JSONObject jsonObject = response.getJSONObject(i);
 
                         type = jsonObject.getString("TYPE");
                         poster_num = jsonObject.getInt("POSTER_NUM");
                         thumb_image = jsonObject.getString("THUMBNAIL");
                         user_id = jsonObject.getString("USER_ID");
-                        update_date= jsonObject.getString("UPDATE_DATE");
-                        last_date= jsonObject.getString("LAST_DATE");
+                        update_date = jsonObject.getString("UPDATE_DATE");
+                        last_date = jsonObject.getString("LAST_DATE");
                         article_num = jsonObject.getInt("ARTICLE_NUM");
                         hash_tag = jsonObject.getString("HASH_TAG");
                         title = jsonObject.getString("TITLE");
@@ -139,8 +145,8 @@ public class Fragment0_3 extends Fragment {
                         thumb_image = "http://hanjiyoon.dothome.co.kr/posters/" + thumb_image;
                         poster_image = "http://hanjiyoon.dothome.co.kr/posters/" + article_num;
 
-                        items.add(0, new FeedItem(type,thumb_image,user_id,update_date,last_date,
-                                poster_image,hash_tag,article_num,title, content, scrap));
+                        items.add(0, new FeedItem(type, thumb_image, user_id, update_date, last_date,
+                                poster_image, hash_tag, article_num, title, content, scrap));
 
                         adapter.notifyItemInserted(0);
                     }
@@ -149,18 +155,20 @@ public class Fragment0_3 extends Fragment {
                 }
 
             }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-        //실제 요청 작업을 수행해주는 요청큐 객체 생성
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        };
 
-        //요청큐에 요청 객체 생성
-        requestQueue.add(jsonArrayRequest);
+
+        //
+        String URL = "http://hanjiyoon.dothome.co.kr/myscrap.php";
+        Map mMap = new HashMap();
+        mMap.put("cur_user_id", cur_user_id);
+        MyscrapRequest myscrapRequest =
+                new MyscrapRequest(URL, responseListener, null, mMap);
+        RequestQueue queue = Volley.newRequestQueue(getContext());
+        queue.add(myscrapRequest);
+
+
 
         //클릭 리스너
         adapter.setOnItemClicklistener(new OnFeedItemClickListener() {
