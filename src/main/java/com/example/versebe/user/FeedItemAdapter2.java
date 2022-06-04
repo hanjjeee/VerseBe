@@ -16,14 +16,14 @@ import com.example.versebe.R;
 
 import java.util.ArrayList;
 
-public class FeedItemAdapter extends RecyclerView.Adapter implements OnFeedItemClickListener{
+public class FeedItemAdapter2 extends RecyclerView.Adapter implements OnFeedItem2ClickListener{
 
 
     Context context;
     ArrayList<FeedItem> items;
-    OnFeedItemClickListener listener;
+    OnFeedItem2ClickListener listener;
 
-    public FeedItemAdapter(Context context, ArrayList<FeedItem> items)
+    public FeedItemAdapter2(Context context, ArrayList<FeedItem> items)
     {
         this.context = context;
         this.items = items;
@@ -35,14 +35,14 @@ public class FeedItemAdapter extends RecyclerView.Adapter implements OnFeedItemC
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
 
 
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.feed_card_layout, viewGroup,false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.feed_card_layout2, viewGroup,false);
 
         VH viewHolder = new VH(itemView,this::onItemClick);
         return viewHolder;
 
     }
 
-   
+
 
 
     @Override
@@ -69,12 +69,12 @@ public class FeedItemAdapter extends RecyclerView.Adapter implements OnFeedItemC
     }
 
     //클릭 리스너
-    public void setOnItemClicklistener(OnFeedItemClickListener listener){
+    public void setOnItemClicklistener(OnFeedItem2ClickListener listener){
         this.listener = listener;
     }
 
     @Override
-    public void onItemClick(FeedItemAdapter.VH holder, View view, int position) {
+    public void onItemClick(FeedItemAdapter2.VH holder, View view, int position) {
 
         if(listener != null){
             listener.onItemClick(holder,view,position);
@@ -91,7 +91,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter implements OnFeedItemC
 
         ImageView image;
 
-        public VH(@NonNull View itemView, final OnFeedItemClickListener listener)
+        public VH(@NonNull View itemView, final OnFeedItem2ClickListener listener)
         {
             super(itemView);
             image = itemView.findViewById(R.id.feed_card_image);
@@ -101,7 +101,7 @@ public class FeedItemAdapter extends RecyclerView.Adapter implements OnFeedItemC
                 @Override public void onClick(View v) {
                     int position = getAdapterPosition();
                     if(listener != null){
-                        listener.onItemClick(FeedItemAdapter.VH.this, v, position);
+                        listener.onItemClick(FeedItemAdapter2.VH.this, v, position);
                     }
                 }
             });

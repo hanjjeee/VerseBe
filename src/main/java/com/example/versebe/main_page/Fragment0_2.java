@@ -24,10 +24,12 @@ import com.android.volley.toolbox.Volley;
 import com.example.versebe.R;
 import com.example.versebe.user.FeedItem;
 import com.example.versebe.user.FeedItemAdapter;
+import com.example.versebe.user.FeedItemAdapter2;
 import com.example.versebe.user.FollowItem;
 import com.example.versebe.user.FollowItemAdapter;
 import com.example.versebe.user.LayoutActivity;
 import com.example.versebe.user.MemberActivity;
+import com.example.versebe.user.OnFeedItem2ClickListener;
 import com.example.versebe.user.OnFeedItemClickListener;
 import com.example.versebe.user.PosterActivity;
 
@@ -45,7 +47,7 @@ public class Fragment0_2 extends Fragment {
     public View view;
 
     private RecyclerView recyclerView;
-    private FeedItemAdapter adapter;
+    private FeedItemAdapter2 adapter;
     private ArrayList<FeedItem> items;
     private  GridLayoutManager layoutManager;
 
@@ -85,7 +87,7 @@ public class Fragment0_2 extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.mainpage_recyclerview);
 
-        adapter = new FeedItemAdapter(getContext(), items);
+        adapter = new FeedItemAdapter2(getContext(), items);
 
         recyclerView.setAdapter(adapter);
 
@@ -165,10 +167,10 @@ public class Fragment0_2 extends Fragment {
         requestQueue.add(jsonArrayRequest);
 
         //클릭 리스너
-        adapter.setOnItemClicklistener(new OnFeedItemClickListener() {
+        adapter.setOnItemClicklistener(new OnFeedItem2ClickListener() {
 
             @Override
-            public void onItemClick(FeedItemAdapter.VH holder, View view, int position) {
+            public void onItemClick(FeedItemAdapter2.VH holder, View view, int position) {
 
                 FeedItem item = adapter.getItem(position);
 
