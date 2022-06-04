@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_gray1">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/page_storename"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@color/teal_200"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="STORE NAME"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/page_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="sans-serif-black"
+                        android:text="Name."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/page_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Category."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/page_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Location."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/page_tel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Tel."
+                        android:textColor="@color/light_gray1"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/imageView_1"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera1"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/imageView_2"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera2"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:scrollbarDefaultDelayBeforeFade="410"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/imageView_3"
+                    android:layout_width="100dp"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera3"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@android:drawable/ic_menu_camera" />
+
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/imageView_4"
+                    android:layout_width="300dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera4"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:id="@+id/imageView_5"
+                    android:layout_width="300dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera5"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/imageView_6"
+                    android:layout_width="100dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="true"
+                    android:background="@color/light_gray2"
+                    android:scaleType="fitXY">
+
+                    <ImageView
+                        android:id="@+id/camera6"
+                        android:layout_width="100dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:src="@android:drawable/ic_menu_camera" />
+                </FrameLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

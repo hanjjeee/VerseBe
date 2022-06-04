@@ -155,13 +155,13 @@ public class MakePosterActivity2 extends AppCompatActivity {
         store_name = intent.getExtras().getString("store_name");
 
         type = intent.getExtras().getString("TYPE");
-        thumb_image= intent.getExtras().getString("THUMBNAIL");;
-        user_id = intent.getExtras().getString("USER_ID");;
-        update_date= intent.getExtras().getString("UPDATE_DATE");;
-        last_date = intent.getExtras().getString("LAST_DATE");;
-        article_num = intent.getExtras().getInt("ARTICLE_NUM");;
-        hash_tag = intent.getExtras().getString("HASH_TAG");;
-        layout_image = intent.getExtras().getString("LAYOUT_IMAGE");;
+        thumb_image= intent.getExtras().getString("THUMBNAIL");
+        user_id = intent.getExtras().getString("USER_ID");
+        update_date= intent.getExtras().getString("UPDATE_DATE");
+        last_date = intent.getExtras().getString("LAST_DATE");
+        article_num = intent.getExtras().getInt("ARTICLE_NUM");
+        hash_tag = intent.getExtras().getString("HASH_TAG");
+        layout_image = intent.getExtras().getString("LAYOUT_IMAGE");
         title = intent.getExtras().getString("TITLE");
 
 
@@ -1094,6 +1094,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
                 //다이얼로그
                 content_dialog.OK.setOnClickListener(new View.OnClickListener() {
 
+                    @RequiresApi(api = Build.VERSION_CODES.R)
                     @Override
                     public void onClick(View view) {
 
@@ -1199,7 +1200,7 @@ public class MakePosterActivity2 extends AppCompatActivity {
         try{
 
             //갤러리 저장
-            fos = new FileOutputStream(Str_Path+title+".png"); // 경로 + 제목 + .jpg로 FileOutputStream Setting
+            fos = new FileOutputStream(Str_Path+title+".png"); // 경로 + 제목 + .(형태)로 FileOutputStream Setting
             bitmap = Bitmap.createScaledBitmap(bitmap, 250, 700, true);
             bitmap.compress(Bitmap.CompressFormat.PNG,100,fos);
 
@@ -1265,10 +1266,12 @@ public class MakePosterActivity2 extends AppCompatActivity {
     }
 
 
+
+    @RequiresApi(api = Build.VERSION_CODES.R)
     private void encodeBitmapImage(Bitmap bitmap_server) throws IOException {
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap_server.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+        bitmap_server.compress(Bitmap.CompressFormat.WEBP, 100, byteArrayOutputStream);
 
         byte[] bytesOfImage = byteArrayOutputStream.toByteArray();
 

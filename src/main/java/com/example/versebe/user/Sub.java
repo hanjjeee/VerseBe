@@ -24,6 +24,14 @@ public class Sub extends ScrollView {
         {
             init3(context);
         }
+        else if(num==4)
+        {
+            init3(context);
+        }
+        else if(num==5)
+        {
+            init3(context);
+        }
         else;
     }
 
@@ -43,6 +51,14 @@ public class Sub extends ScrollView {
         {
             init3(context);
         }
+        else if(num==4)
+        {
+            init4(context);
+        }
+        else if(num==5)
+        {
+            init4(context);
+        }
         else;
 
     }
@@ -60,6 +76,16 @@ public class Sub extends ScrollView {
     private void init3(Context context){
         LayoutInflater inflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.layout_colorful,this,true);
+    }
+
+    private void init4(Context context){
+        LayoutInflater inflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.layout_4,this,true);
+    }
+
+    private void init5(Context context){
+        LayoutInflater inflater =(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.layout_5,this,true);
     }
 
 }
